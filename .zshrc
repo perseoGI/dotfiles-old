@@ -104,6 +104,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 alias pac='sudo pacman -S'
 alias vim=nvim
+alias dotfiles='/usr/bin/git --git-dir=/home/perseo/.dotfiles/ --work-tree=/home/perseo'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -124,4 +125,3 @@ export NVM_DIR="$HOME/.nvm"
 export PATH=$PATH:~/.nimble/bin 
 
 source $ZSH/oh-my-zsh.sh
-alias dotfiles='/usr/bin/git --git-dir=/home/perseo/.dotfiles/ --work-tree=/home/perseo'
