@@ -43,7 +43,7 @@ Plug 'gruvbox-community/gruvbox'        " Colorscheme
 Plug 'sainnhe/gruvbox-material'
 Plug 'vim-utils/vim-man'                " Man pages
 Plug 'tpope/vim-fugitive'               " Git blames, logs...
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}     " Completer
 Plug 'tweekmonster/gofmt.vim'
 Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
@@ -185,51 +185,53 @@ let g:easyescape_timeout = 100
 "set splitbelow
 "set splitright
 
+" No needed anymore. CoC can handle it
+
 " + asyncomplete.vim {{{
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
-inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<cr>"
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+"inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"inoremap <expr> <C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
+"inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+"autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " Register LSP server for C/C++/Objective-C
-if executable('clangd')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'clangd',
-        \ 'cmd': {server_info->['clangd', '-background-index']},
-        \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cu'],
-        \ })
-endif
+"if executable('clangd')
+    "au User lsp_setup call lsp#register_server({
+        "\ 'name': 'clangd',
+        "\ 'cmd': {server_info->['clangd', '-background-index']},
+        "\ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cu'],
+        "\ })
+"endif
 
-" Register LSP server for Python
-if executable('pyls')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->['pyls']},
-        \ 'whitelist': ['python'],
-        \ })
-endif
-" + }}}
+"" Register LSP server for Python
+"if executable('pyls')
+    "au User lsp_setup call lsp#register_server({
+        "\ 'name': 'pyls',
+        "\ 'cmd': {server_info->['pyls']},
+        "\ 'whitelist': ['python'],
+        "\ })
+"endif
+"" + }}}
 
-" + asyncomplete-file.vim {{{
-au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-    \ 'name': 'file',
-    \ 'whitelist': ['*'],
-    \ 'priority': 10,
-    \ 'completor': function('asyncomplete#sources#file#completor')
-    \ }))
-" + }}}
+"" + asyncomplete-file.vim {{{
+"au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+    "\ 'name': 'file',
+    "\ 'whitelist': ['*'],
+    "\ 'priority': 10,
+    "\ 'completor': function('asyncomplete#sources#file#completor')
+    "\ }))
+"" + }}}
 
-" + vim-lsp {{{
-let g:lsp_highlight_references_enabled = 1
-let g:lsp_signs_enabled = 1
-let g:lsp_diagnostics_echo_cursor = 1
-let g:lsp_diagnostics_float_cursor = 1
-let g:lsp_signs_error = {'text': 'x'}
-let g:lsp_signs_warning = {'text': 'w'}
-let g:lsp_signs_info = {'text': 'i'}
-" + }}}
-" }}}
+"" + vim-lsp {{{
+"let g:lsp_highlight_references_enabled = 1
+"let g:lsp_signs_enabled = 1
+"let g:lsp_diagnostics_echo_cursor = 1
+"let g:lsp_diagnostics_float_cursor = 1
+"let g:lsp_signs_error = {'text': 'x'}
+"let g:lsp_signs_warning = {'text': 'w'}
+"let g:lsp_signs_info = {'text': 'i'}
+"" + }}}
+"" }}}
 
 " Comments map to <C-/> (vim register for '/' is  '_')
 nmap <C-_>   <Plug>NERDCommenterToggle
