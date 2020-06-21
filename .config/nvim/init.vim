@@ -59,7 +59,8 @@ Plug 'prabirshrestha/async.vim'
 "Plug 'prabirshrestha/asyncomplete.vim'
 "Plug 'prabirshrestha/asyncomplete-lsp.vim'
 "Plug 'prabirshrestha/asyncomplete-file.vim'
-Plug 'preservim/nerdcommenter'
+Plug 'preservim/nerdcommenter'          " Comments
+Plug 'kshenoy/vim-signature'            " Show marks
 
 call plug#end()
 
