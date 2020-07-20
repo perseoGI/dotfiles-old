@@ -105,6 +105,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 alias pac='sudo pacman -S'
 alias vim=nvim
 alias dotfiles='/usr/bin/git --git-dir=/home/perseo/.dotfiles/ --work-tree=/home/perseo'
+alias alacritty='WINIT_HIDPI_FACTOR=1 alacritty'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -122,6 +123,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 
-export PATH=$PATH:~/.nimble/bin 
+export PATH=$PATH:~/.nimble/bin
 
 source $ZSH/oh-my-zsh.sh

@@ -20,6 +20,7 @@ set undofile                    " Store modified file per file in undo directory
 set incsearch                   " By the time start searching it highlight results before press enter
 set termguicolors
 set scrolloff=8
+set noshowmode                  " Dont show Vim mode status => replaced by vim-airline
 
 
 " Give more space for displaying messages.
@@ -61,9 +62,13 @@ Plug 'prabirshrestha/async.vim'
 "Plug 'prabirshrestha/asyncomplete-file.vim'
 Plug 'preservim/nerdcommenter'          " Comments
 Plug 'kshenoy/vim-signature'            " Show marks
-
+Plug 'vuciv/vim-bujo'                   " Minimalist TODO list management
+" Vim Airline
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
+let g:airline_theme='gruvbox'
 let g:gruvbox_contrast_dark = 'hard'
 if exists('+termguicolors')
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -132,6 +137,7 @@ vnoremap K :m '<-2<CR>gv=gv
 
 vnoremap X "_d
 inoremap <C-c> <esc>
+nnoremap Y y$
 
 function! s:check_back_space() abort
     let col = col('.') - 1
@@ -153,6 +159,7 @@ nmap <leader>gy <Plug>(coc-type-definition)
 nmap <leader>gi <Plug>(coc-implementation)
 nmap <leader>gr <Plug>(coc-references)
 nmap <leader>rr <Plug>(coc-rename)
+nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
 nmap <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <leader>g] <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
@@ -251,3 +258,12 @@ nnoremap <leader>p "+p
 nnoremap <leader>P "+P
 vnoremap <leader>p "+p
 vnoremap <leader>P "+P
+
+" Remember last position in buffer
+autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+
+nmap <C-S> <Plug>BujoAddnormal
+imap <C-S> <Plug>BujoAddinsert
+nmap <C-Q> <Plug>BujoChecknormal
+imap <C-Q> <Plug>BujoCheckinsert
+let g:bujo#window_width = 70
