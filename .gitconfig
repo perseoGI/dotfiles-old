@@ -1,0 +1,8 @@
+[user]
+	name = Perseo
+	email = perseo.gi98@gmail.com
+[core]
+	editor = vim
+[alias]
+	s = status
+	l = log --graph --decorate --oneline

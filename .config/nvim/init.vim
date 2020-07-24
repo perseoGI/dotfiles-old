@@ -187,6 +187,8 @@ autocmd BufWritePre * :call TrimWhitespace()
 " vim-easyescape.vim
 let g:easyescape_chars = { "j": 1, "k": 1 }
 let g:easyescape_timeout = 100
+"inoremap JK <Esc>
+"inoremap KJ <Esc>
 
 " Open new split panes to right and buttom, which feels more natural
 "set splitbelow
@@ -267,3 +269,11 @@ imap <C-S> <Plug>BujoAddinsert
 nmap <C-Q> <Plug>BujoChecknormal
 imap <C-Q> <Plug>BujoCheckinsert
 let g:bujo#window_width = 70
+
+
+augroup Markdown
+    autocmd!
+    autocmd FileType markdown set wrap
+    autocmd FileType markdown echo "Eseee"
+augroup END
+
