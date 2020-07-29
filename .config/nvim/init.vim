@@ -66,6 +66,8 @@ Plug 'vuciv/vim-bujo'                   " Minimalist TODO list management
 " Vim Airline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+Plug 'justinmk/vim-sneak'               " Vim search word given two letters  TODO pensar si cambiarlo a f
 call plug#end()
 
 let g:airline_theme='gruvbox'
@@ -139,6 +141,27 @@ vnoremap X "_d
 inoremap <C-c> <esc>
 nnoremap Y y$
 
+" Visual selection after shifting
+vnoremap < <gv
+vnoremap > >gv
+
+" Auto close brackets
+inoremap {<CR> {<CR>}<Esc>O
+inoremap { { }<Left><Left>
+inoremap {} {}
+" Auto close square brackets
+inoremap [<CR> [<CR>]<Esc>O
+inoremap [ []<Left>
+inoremap [] []
+
+" For JSX
+inoremap {{ {{  }}<Left><Left><Left>
+
+inoremap ( ()<Left>
+" TODO esto no funciona: echar un ojo inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
+" inoremap /* /**/<Left><Left>
+
+
 function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
@@ -187,60 +210,6 @@ autocmd BufWritePre * :call TrimWhitespace()
 " vim-easyescape.vim
 let g:easyescape_chars = { "j": 1, "k": 1 }
 let g:easyescape_timeout = 100
-"inoremap JK <Esc>
-"inoremap KJ <Esc>
-
-" Open new split panes to right and buttom, which feels more natural
-"set splitbelow
-"set splitright
-
-" No needed anymore. CoC can handle it
-
-" + asyncomplete.vim {{{
-"inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-"inoremap <expr> <C-y> pumvisible() ? asyncomplete#close_popup() : "\<C-y>"
-"inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<cr>"
-"autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-
-" Register LSP server for C/C++/Objective-C
-"if executable('clangd')
-    "au User lsp_setup call lsp#register_server({
-        "\ 'name': 'clangd',
-        "\ 'cmd': {server_info->['clangd', '-background-index']},
-        "\ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cu'],
-        "\ })
-"endif
-
-"" Register LSP server for Python
-"if executable('pyls')
-    "au User lsp_setup call lsp#register_server({
-        "\ 'name': 'pyls',
-        "\ 'cmd': {server_info->['pyls']},
-        "\ 'whitelist': ['python'],
-        "\ })
-"endif
-"" + }}}
-
-"" + asyncomplete-file.vim {{{
-"au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-    "\ 'name': 'file',
-    "\ 'whitelist': ['*'],
-    "\ 'priority': 10,
-    "\ 'completor': function('asyncomplete#sources#file#completor')
-    "\ }))
-"" + }}}
-
-"" + vim-lsp {{{
-"let g:lsp_highlight_references_enabled = 1
-"let g:lsp_signs_enabled = 1
-"let g:lsp_diagnostics_echo_cursor = 1
-"let g:lsp_diagnostics_float_cursor = 1
-"let g:lsp_signs_error = {'text': 'x'}
-"let g:lsp_signs_warning = {'text': 'w'}
-"let g:lsp_signs_info = {'text': 'i'}
-"" + }}}
-"" }}}
 
 " Comments map to <C-/> (vim register for '/' is  '_')
 nmap <C-_>   <Plug>NERDCommenterToggle
@@ -264,16 +233,18 @@ vnoremap <leader>P "+P
 " Remember last position in buffer
 autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
+" ToDo Bujo config
 nmap <C-S> <Plug>BujoAddnormal
 imap <C-S> <Plug>BujoAddinsert
 nmap <C-Q> <Plug>BujoChecknormal
 imap <C-Q> <Plug>BujoCheckinsert
 let g:bujo#window_width = 70
 
-
+" Configure wrap mode only on Markdown files
 augroup Markdown
     autocmd!
     autocmd FileType markdown set wrap
-    autocmd FileType markdown echo "Eseee"
 augroup END
 
+" Vim-man
+map <leader>k <Plug>(Man)
