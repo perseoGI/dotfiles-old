@@ -107,3 +107,5 @@ alias alacritty='WINIT_HIDPI_FACTOR=1 alacritty'
 
 # Execute when opening a terminal
 neofetch
+
+PATH=$PATH:/home/perseo/Documents/codes/scripts

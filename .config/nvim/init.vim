@@ -247,4 +247,4 @@ augroup Markdown
 augroup END
 
 " Vim-man
-map <leader>k <Plug>(Man)
+map <C-k> <Plug>(Man)
