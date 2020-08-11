@@ -1,5 +1,4 @@
 syntax on
-
 set guicursor=
 set noshowmatch
 set relativenumber
@@ -22,7 +21,6 @@ set termguicolors
 set scrolloff=8
 set noshowmode                  " Dont show Vim mode status => replaced by vim-airline
 
-
 " Give more space for displaying messages.
 set cmdheight=2
 
@@ -37,9 +35,8 @@ set shortmess+=c
 set colorcolumn=100
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 
-
+" Pluggins
 call plug#begin('~/.vim/plugged')
-
 Plug 'gruvbox-community/gruvbox'        " Colorscheme
 Plug 'sainnhe/gruvbox-material'
 Plug 'vim-utils/vim-man'                " Man pages
@@ -50,10 +47,7 @@ Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-
-Plug '/home/mpaulson/personal/vim-be-good'
-
-" Perseo
+Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
 Plug 'zhou13/vim-easyescape'
 Plug 'prabirshrestha/async.vim'
 "Plug 'prabirshrestha/vim-lsp'
@@ -63,23 +57,45 @@ Plug 'prabirshrestha/async.vim'
 Plug 'preservim/nerdcommenter'          " Comments
 Plug 'kshenoy/vim-signature'            " Show marks
 Plug 'vuciv/vim-bujo'                   " Minimalist TODO list management
-" Vim Airline
+" Vim Airline: botton bar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
 Plug 'justinmk/vim-sneak'               " Vim search word given two letters  TODO pensar si cambiarlo a f
+Plug 'jiangmiao/auto-pairs'             " Auto open close pairs, best plug of Augost-2020
 call plug#end()
 
+""" Theme customization
+
+" Set up powerline fonts to enable cute, non rectangle interface
+let g:airline_powerline_fonts = 1
+" Show current open buffers as tabs on the top
+let g:airline#extensions#tabline#enabled = 1
+" Show only last (tail) name of the file on tabs
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+
+" Set theme with gruvbox
 let g:airline_theme='gruvbox'
+" Some gruvbox configurations
 let g:gruvbox_contrast_dark = 'hard'
 if exists('+termguicolors')
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
+" Disable invert selection, you are wellcome eyes!
 let g:gruvbox_invert_selection='0'
 
-" --- The Greatest plugin of all time.  I am not bias
-" let g:vim_be_good_floating = 0
+" remove the file encoding with Github account
+let g:airline_section_y='@PerseoGI'
+" remove separators for empty sections
+"let g:airline_skip_empty_sections = 1
+
+" Leave colorcheme config here, after airline config
+colorscheme gruvbox
+set background=dark
+
+
+" VimBeGood config
+let g:vim_be_good_floating = 0
 
 " --- vim go (polyglot) settings.
 let g:go_highlight_build_constraints = 1
@@ -97,8 +113,6 @@ let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_auto_sameids = 1
 
-colorscheme gruvbox
-set background=dark
 
 " Allow RipGrep (FZF) to detect the route, search for git repo and optimize searchs
 if executable('rg')
@@ -145,22 +159,10 @@ nnoremap Y y$
 vnoremap < <gv
 vnoremap > >gv
 
-" Auto close brackets
-inoremap {<CR> {<CR>}<Esc>O
-inoremap { { }<Left><Left>
-inoremap {} {}
-" Auto close square brackets
-inoremap [<CR> [<CR>]<Esc>O
-inoremap [ []<Left>
-inoremap [] []
+" Auto close brackets: Plugin ==> jiangmiao/auto-pairs
 
-" For JSX
-inoremap {{ {{  }}<Left><Left><Left>
-
-inoremap ( ()<Left>
-" TODO esto no funciona: echar un ojo inoremap <expr> )  strpart(getline('.'), col('.')-1, 1) == ")" ? "\<Right>" : ")"
-" inoremap /* /**/<Left><Left>
-
+" Auto indent all file
+nnoremap <Leader>i ggVG=<C-o>
 
 function! s:check_back_space() abort
     let col = col('.') - 1
@@ -207,7 +209,7 @@ augroup END
 
 autocmd BufWritePre * :call TrimWhitespace()
 
-" vim-easyescape.vim
+" vim-easyescape.vim: escape to normal mode pressing 'jk' or 'kj' at the same time
 let g:easyescape_chars = { "j": 1, "k": 1 }
 let g:easyescape_timeout = 100
 
@@ -223,6 +225,9 @@ vnoremap  <leader>y  "+y
 nnoremap  <leader>Y  "+yg_
 nnoremap  <leader>y  "+y
 nnoremap  <leader>yy  "+yy
+
+" Copy all file on clipboard
+nnoremap <leader>ya gg"+yG<C-o>
 
 " Paste from clipboard
 nnoremap <leader>p "+p
@@ -247,4 +252,8 @@ augroup Markdown
 augroup END
 
 " Vim-man
-map <C-k> <Plug>(Man)
+"map <C-k> <Plug>(Man)
+
+" Move among buffers with CTRL
+map <C-L> :bnext<CR>
+map <C-H> :bprev<CR>
