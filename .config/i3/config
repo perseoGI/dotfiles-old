@@ -241,6 +241,17 @@ mode "restore" {
 }
 bindsym $mod+n mode "restore"
 
+# Screenshots: scrot & gimp - root
+# --release is needed
+bindsym --release Print exec scrot -e 'mv $f /tmp/ && gimp --class floating /tmp/$f'
+# scrot & gimp - selection
+bindsym --release $mod+F12 exec scrot -s -e 'mv $f /tmp/ && gimp --class floating /tmp/$f'
+# scrot & gimp - window
+bindsym --release $mod+Shift+F12 exec scrot -u -e 'mv $f /tmp/ && gimp --class floating /tmp/$f'
+
+# Class to allow floating startup on the middle of the sceen
+for_window [class="^floating$"] floating enable
+for_window [class="^floating$"] [floating] resize set 1800 1000, move position center
 
 
 # Deprectaed or copied
