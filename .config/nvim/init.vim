@@ -130,30 +130,53 @@ let g:vrfr_rg = 'true'
 let g:netrw_banner = 0  " Disable help info on browser tree
 let g:netrw_winsize = 25
 
-nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
-nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
-" Remap convenien change between windows commands
+" Remap convenient change between windows commands
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
+
+" Move among buffers with CTRL (enable g:airline#extensions#tabline#enabled to
+" see open buffers)
+map <C-L> :bnext<CR>
+map <C-H> :bprev<CR>
+
+" Find current word in the project using rg
+nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
+" Find a word on project using rg
+nnoremap <Leader>ps :Rg<SPACE>
+
+" Open vim help for current word
+nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
+
 " Open Undotree
 nnoremap <leader>u :UndotreeShow<CR>
-nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
-nnoremap <Leader>ps :Rg<SPACE>
+
+"""" File explorers
+" GFiles only works with git repo and will only display added files on .git
 nnoremap <C-p> :GFiles<CR>
+" Files is the best alternative for GFiles when there is no git initialized
 nnoremap <Leader>pf :Files<CR>
-nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
+" Open classical Ex-plorer on the left
+nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+
+" Buffer resizing
 nnoremap <Leader>+ :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
 nnoremap <Leader>rp :resize 100<CR>
-nnoremap <Leader>ee oif err != nil {<CR>log.Fatalf("%+v\n", err)<CR>}<CR><esc>kkI<esc>
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
 
-vnoremap X "_d
-inoremap <C-c> <esc>
+" Reload vim.init file
+nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
+
+" Make Y as it should be!
 nnoremap Y y$
+" X as a i<backspace>
+vnoremap X "_d
+
+inoremap <C-c> <esc>
+vnoremap J :m '>+1<CR>gv=gv
+" This does not work (man uses K)
+vnoremap K :m '<-2<CR>gv=gv
 
 " Visual selection after shifting
 vnoremap < <gv
@@ -254,6 +277,5 @@ augroup END
 " Vim-man
 "map <C-k> <Plug>(Man)
 
-" Move among buffers with CTRL
-map <C-L> :bnext<CR>
-map <C-H> :bprev<CR>
+" Custom shortcuts
+nnoremap <leader>cl iconsole.log()<left>
