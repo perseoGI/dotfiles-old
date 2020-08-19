@@ -145,9 +145,11 @@ map <C-H> :bprev<CR>
 nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
 " Find a word on project using rg
 nnoremap <Leader>ps :Rg<SPACE>
+" Find and refactor current word in the project
+nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
 
 " Open vim help for current word
-nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
+nnoremap <leader>vhw :h <C-R>=expand("<cword>")<CR><CR>
 
 " Open Undotree
 nnoremap <leader>u :UndotreeShow<CR>
@@ -182,10 +184,34 @@ vnoremap K :m '<-2<CR>gv=gv
 vnoremap < <gv
 vnoremap > >gv
 
+" Surround with quotation marks
+nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
+
+" Capitalize or lower case current word
+inoremap <C-u> <esc>viw~ea
+
+" Operator pending mappings
+" Same as Xi(  shorted to Xp
+onoremap p i(
+onoremap l i{
+onoremap b /return<cr>
+onoremap in( :<c-u>normal! f(vi(<cr>
+onoremap il( :<c-u>normal! F)vi(<cr>
+onoremap in{ :<c-u>normal! f{vi{<cr>
+onoremap il{ :<c-u>normal! F}vi{<cr>
+
+" Keep away from dangerous arrows !
+noremap <left> :echo "Use H bro :("<cr><left>
+noremap <right> :echo "Use L bro :("<cr><right>
+noremap <up> :echo "Use K bro :("<cr><up>
+noremap <down> :echo "Use J bro :("<cr><down>
+noremap <esc> :echo "Don't even think of ESC. Use jk or kj :)"<cr><esc>
+
 " Auto close brackets: Plugin ==> jiangmiao/auto-pairs
 
 " Auto indent all file
-nnoremap <Leader>i ggVG=<C-o>
+nnoremap <Leader>i gg=G<C-o>
 
 function! s:check_back_space() abort
     let col = col('.') - 1
@@ -207,7 +233,6 @@ nmap <leader>gy <Plug>(coc-type-definition)
 nmap <leader>gi <Plug>(coc-implementation)
 nmap <leader>gr <Plug>(coc-references)
 nmap <leader>rr <Plug>(coc-rename)
-nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
 nmap <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <leader>g] <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
@@ -225,9 +250,10 @@ fun! TrimWhitespace()
     call winrestview(l:save)
 endfun
 
+" This is not working properly... should highlight yanked lines
 augroup highlight_yank
     autocmd!
-    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("IncSearch", 50)
+    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
 augroup END
 
 autocmd BufWritePre * :call TrimWhitespace()
@@ -277,5 +303,9 @@ augroup END
 " Vim-man
 "map <C-k> <Plug>(Man)
 
-" Custom shortcuts
-nnoremap <leader>cl iconsole.log()<left>
+" Custom abbreviations
+"nnoremap <leader>cl aconsole.log()<left>
+iabbrev clog console.log()<left>
+iabbrev @@ perseo.gi98@gmail.com
+
+
