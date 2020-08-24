@@ -371,5 +371,4 @@ iabbrev @@ perseo.gi98@gmail.com
 " }}}
 
 
-
-" vim:foldmethod=marker:foldlevel=0
+"vim:foldmethod=marker:foldlevel=0
