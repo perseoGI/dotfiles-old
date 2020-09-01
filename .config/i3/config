@@ -182,6 +182,10 @@ bar {
 # CUSTOM @perseoGI KEYS START
 # ------------------------------------------
 
+# Dunst (notify-send control)
+# Close topmost notification currently being displayed
+bindsym $mod+C exec dunstctl close
+
 # Pulse Audio controls
 # First setup default output
 exec --no-startup-id pactl set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo

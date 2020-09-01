@@ -361,7 +361,7 @@ endfun
 " }}}
 
 " Custom abbreviations ------------------------------------------------------{{{
-iabbrev clog console.log()<left>
+iabbrev clog console.log(
 iabbrev @@ perseo.gi98@gmail.com
 " }}}
 
