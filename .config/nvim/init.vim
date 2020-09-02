@@ -1,4 +1,5 @@
 " PerseoGI init.vim
+"runtime! macros/dvorak.vim
 
 " VIM general settings ------------------------------------------------------{{{
 " + Interface ---------------------------------------------------------------{{{
@@ -77,6 +78,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'justinmk/vim-sneak'               " Vim search word given two letters  TODO pensar si cambiarlo a f
 Plug 'jiangmiao/auto-pairs'             " Auto open close pairs, best plug of Augost-2020
+Plug 'soywod/iris.vim'                  " Email client
+Plug 'mcchrish/nnn.vim'
 call plug#end()
 
 " + Vim pluggins settings ---------------------------------------------------{{{
@@ -151,7 +154,11 @@ let g:netrw_browse_split = 2
 let g:vrfr_rg = 'true'
 let g:netrw_banner = 0  " Disable help info on browser tree
 let g:netrw_winsize = 25
-" ++ }}}
+
+
+"let g:loaded_netrw       = 1
+"let loaded_netrwPlugin = 1
+"" ++ }}}
 
 " ++ vim-easyescape ---------------------------------------------------------{{{
 " Escape to normal mode pressing 'jk' or 'kj' at the same time
@@ -161,6 +168,41 @@ let g:easyescape_timeout = 100
 
 " ++ ToDo bujo settings -----------------------------------------------------{{{
 let g:bujo#window_width = 70
+"++ }}}
+
+
+" Iris settings -------------------------------------------------------------{{{
+let g:iris_name = "Perseo"
+"let g:iris_mail = "perseo.gi98@gmail.com"
+"let g:iris_imap_host  = "imap.gmail.com"
+"let g:iris_imap_port  = 993
+"let g:iris_smtp_host  = "smtp.gmail.com"
+"let g:iris_smtp_port  = 587
+"let g:iris_imap_passwd_filepath = "/home/perseo/.config/nvim/gmail_password_iris.gpg"
+"let g:iris_smtp_passwd_filepath = "/home/perseo/.config/nvim/gmail_password_iris.gpg""
+
+let g:iris_mail = "alejandro-perseo.gutierrez.izquierdo@alumnos.upm.es"
+let g:iris_imap_host  = "correo.alumnos.upm.es"
+let g:iris_imap_port  = 993
+let g:iris_imap_login = "alejandro-perseo.gutierrez.izquierdo"
+let g:iris_smtp_host  = "smtp.upm.es"
+let g:iris_smtp_port  = 587
+let g:iris_emails_chunk_size = 50
+let g:iris_imap_passwd_filepath = "/home/perseo/.config/nvim/upm_password_iris.gpg"
+let g:iris_smtp_passwd_filepath = "/home/perseo/.config/nvim/upm_password_iris.gpg""
+
+"++ }}}
+
+" nnn settings  -------------------------------------------------------------{{{
+"let g:nnn#layout = { 'left': '~30%' }
+" Floating window (neovim latest and vim with patch 8.2.191)
+let g:nnn#layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Debug' } }
+
+autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NnnPicker | endif
+"autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | NnnPicker| endif
+"autocmd vimenter * NnnPicker
 "++ }}}
 
 " + }}}
@@ -188,6 +230,7 @@ map <C-H> :bprev<CR>
 
 " Buffer resizing
 nnoremap <Leader>+ :vertical resize +5<CR>
+nnoremap <Leader>= :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
 nnoremap <Leader>rp :resize 100<CR>
 " + }}}
@@ -200,8 +243,9 @@ nnoremap Y y$
 vnoremap X "_d
 
 inoremap <C-c> <esc>
+
+" Visual-Line move lines up or down
 vnoremap J :m '>+1<CR>gv=gv
-" This does not work (man uses K)
 vnoremap K :m '<-2<CR>gv=gv
 
 " Visual selection after shifting
@@ -289,6 +333,9 @@ nnoremap <C-p> :GFiles<CR>
 nnoremap <Leader>pf :Files<CR>
 " Open classical Ex-plorer on the left
 nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+
+" <leader>n  to open nnn explorer => great sustitute of Ex
+
 " ++ }}}
 
 " ++ Coc mappings: GoTo code navigation --------------------------------------{{{
@@ -331,6 +378,10 @@ imap <C-S> <Plug>BujoAddinsert
 nmap <C-Q> <Plug>BujoChecknormal
 imap <C-Q> <Plug>BujoCheckinsert
 " ++ }}}
+
+" Iris mappings --------------------------------------------------------{{{
+" ++ }}}
+
 " + }}}
 " }}}
 
@@ -371,4 +422,4 @@ iabbrev @@ perseo.gi98@gmail.com
 " }}}
 
 
-"vim:foldmethod=marker:foldlevel=0
+" vim:foldmethod=marker:foldlevel=4
