@@ -39,6 +39,10 @@ alias pac='sudo pacman -S'
 alias vim=nvim
 alias dotfiles='/usr/bin/git --git-dir=/home/perseo/.dotfiles/ --work-tree=/home/perseo'
 alias alacritty='WINIT_HIDPI_FACTOR=1 alacritty'
+# Use exa, ls made in Rust, with color highlighting
+alias l='exa -lagh'
+alias ll='exa -lh'
+# Also, bat is a very nice cat implementation which integrates a paginator and a syntax highlighter
 
 # Execute when opening a terminal
 neofetch
