@@ -26,9 +26,10 @@ setxkbmap -rules evdev -model evdev -layout us -variant altgr-intl
 export VISUAL="vim"
 export EDITOR="nvim"
 export READER="okular"
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # Compilation flags
- export ARCHFLAGS="-arch x86_64"
+export ARCHFLAGS="-arch x86_64"
 
 # NVM configuration
 export NVM_DIR="$HOME/.nvm"
@@ -47,4 +48,4 @@ alias ll='exa -lh'
 # Execute when opening a terminal
 neofetch
 
-PATH=$PATH:/home/perseo/Documents/codes/scripts
+PATH=$PATH:/home/perseo/Documents/codes/scripts:/usr/local/arm/gcc-arm-none-eabi-4_9-2015q3/bin

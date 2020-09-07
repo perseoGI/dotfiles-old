@@ -80,6 +80,7 @@ Plug 'justinmk/vim-sneak'               " Vim search word given two letters  TOD
 Plug 'jiangmiao/auto-pairs'             " Auto open close pairs, best plug of Augost-2020
 Plug 'soywod/iris.vim'                  " Email client
 Plug 'mcchrish/nnn.vim'
+Plug 'floobits/floobits-neovim'         " Colaborate Vim ~= VSCode Live Share pluggin or Atom Teletype
 call plug#end()
 
 " + Vim pluggins settings ---------------------------------------------------{{{
@@ -409,6 +410,18 @@ fun! TrimWhitespace()
     keeppatterns %s/\s\+$//e
     call winrestview(l:save)
 endfun
+
+
+" Visual Line macros: apply a macro to multiple lines by:
+"   1. Recording a macro
+"   2. Selecting multiple lines with V-Line mode
+"   3. Applying macro to those lines
+xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
+function! ExecuteMacroOverVisualRange()
+  echo "@".getcmdline()
+  execute ":'<,'>normal @".nr2char(getchar())
+endfunction
+
 " }}}
 
 " Custom abbreviations ------------------------------------------------------{{{
@@ -421,5 +434,7 @@ iabbrev @@ perseo.gi98@gmail.com
 "map <C-k> <Plug>(Man)
 " }}}
 
+
+" Experimental stuff
 
 " vim:foldmethod=marker:foldlevel=4
