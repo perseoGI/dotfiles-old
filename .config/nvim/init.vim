@@ -57,7 +57,14 @@ Plug 'gruvbox-community/gruvbox'        " Colorscheme
 Plug 'sainnhe/gruvbox-material'
 Plug 'vim-utils/vim-man'                " Man pages
 Plug 'tpope/vim-fugitive'               " Git blames, logs...
+
+" To avoid file not found errors on C/C++, compile_commands.json must be
+" created on the path. Use $ bear make ... to generate automatically
 Plug 'neoclide/coc.nvim', {'branch': 'release'}     " Completer
+" To enable configure coc-settings.json with
+"       clangd.semanticHighlighting": true
+Plug 'jackguo380/vim-lsp-cxx-highlight' " Syntax highlighter for C/C++ to be used with Coc
+
 Plug 'tweekmonster/gofmt.vim'
 Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
