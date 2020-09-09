@@ -18,7 +18,12 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
+## User configuration
+
+# Make <C-P> and <C-N> also search
+bindkey "^P" up-line-or-search
+bindkey "^N" down-line-or-search
+
 
 # Configure keyboard layout with english international without unconfortable dead keys
 setxkbmap -rules evdev -model evdev -layout us -variant altgr-intl
