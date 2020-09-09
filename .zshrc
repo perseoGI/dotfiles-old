@@ -23,7 +23,7 @@ source $ZSH/oh-my-zsh.sh
 # Configure keyboard layout with english international without unconfortable dead keys
 setxkbmap -rules evdev -model evdev -layout us -variant altgr-intl
 
-export VISUAL="vim"
+export VISUAL="nvim"
 export EDITOR="nvim"
 export READER="okular"
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'

@@ -43,6 +43,8 @@ bindsym $mod+Return exec alacritty
 #bindsym $mod+Return exec terminator
 #bindsym $mod+Return exec urxvt
 
+# File explorer: Ranger
+bindsym $mod+Shift+Return exec alacritty -e ranger
 
 # kill focused window
 bindsym $mod+Shift+q kill
