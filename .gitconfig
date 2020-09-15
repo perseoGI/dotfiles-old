@@ -2,7 +2,7 @@
 	name = Perseo
 	email = alejandro-perseo.gutierrez.izquierdo@alumnos.upm.es
 [core]
-	editor = vim
+	editor = nvim
 [alias]
 	s = status -sb
 	l = log --graph --decorate --oneline

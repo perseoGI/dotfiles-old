@@ -18,9 +18,11 @@ gaps inner 10
 #gaps outer 10
 
                           # class                 border  backgr. text    indicator child_border
-for_window [class="^.*"] client.focused          #77dd77 #285577 #ffffff #2e9ef4   #285577
-for_window [class="^.*"] client.urgent           #2F343A #380090 #FFFFFF #380090   #900000
+#for_window [class="^.*"] client.focused          #77dd77 #285577 #ffffff #2e9ef4   #285577
+#for_window [class="^.*"] client.urgent           #2F343A #380090 #FFFFFF #380090   #900000
 
+client.focused          #77dd77 #5dc1b9 #ffffff #2e9ef4   #5dc1b9
+client.urgent           #2F343A #380090 #FFFFFF #380090   #FF10C3
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -51,9 +53,14 @@ bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 #bindsym $mod+d exec dmenu_run
+#set $rofi_theme "~/.config/i3/clean.rasi"
 set $rofi_theme "~/.config/i3/rofitheme.rasi"
+
+#bindsym $mod+d exec rofi -show -theme $rofi_theme -icon-theme candy-icons
+
 bindsym $mod+d exec rofi -show run -config $rofi_theme
 bindsym $mod+Shift+d exec rofi -show window -config $rofi_theme
+
 #bindsym $mod+d exec rofi i -i -modi run,ssh -dmenu -mesg 'Howdy'`"
 
 # TODO descomentar!!! bindsym $mod+d exec "exec ~/.config/i3/apps/`ls ~/.config/i3/apps | rofi i -i -modi run,ssh -dmenu -mesg 'Howdy'`"
@@ -107,10 +114,10 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # focus the parent container
-bindsym $mod+a focus parent
+#bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+#bindsym $mod+Shift+a focus child
 
 # switch to workspace
 bindsym $mod+1 workspace 1
