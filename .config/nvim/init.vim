@@ -83,11 +83,13 @@ Plug 'vuciv/vim-bujo'                   " Minimalist TODO list management
 " Vim Airline: botton bar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'justinmk/vim-sneak'               " Vim search word given two letters  TODO pensar si cambiarlo a f
+"Plug 'justinmk/vim-sneak'               " Vim search word given two letters  TODO pensar si cambiarlo a f
 Plug 'jiangmiao/auto-pairs'             " Auto open close pairs, best plug of Augost-2020
 Plug 'soywod/iris.vim'                  " Email client
 Plug 'mcchrish/nnn.vim'
-Plug 'floobits/floobits-neovim'         " Colaborate Vim ~= VSCode Live Share pluggin or Atom Teletype
+"Plug 'floobits/floobits-neovim'         " Colaborate Vim ~= VSCode Live Share pluggin or Atom Teletype
+" After having tested coc-html, coc-emmet, coc-snippets, this is the best option for auto-closing html tags on jsx
+Plug 'alvan/vim-closetag'
 call plug#end()
 
 " + Vim pluggins settings ---------------------------------------------------{{{
@@ -235,6 +237,8 @@ nnoremap <leader>l :wincmd l<CR>
 " see open buffers)
 map <C-L> :bnext<CR>
 map <C-H> :bprev<CR>
+" Close buffer
+nnoremap <C-w>c :bd<CR>
 
 " Buffer resizing
 nnoremap <Leader>+ :vertical resize +5<CR>
@@ -302,11 +306,11 @@ vnoremap <leader>P "+P
 
 " + Bro mappings ------------------------------------------------------------{{{
 " ... Keep away from dangerous arrows !
-noremap <left> :echo "Use H bro :("<cr><left>
-noremap <right> :echo "Use L bro :("<cr><right>
-noremap <up> :echo "Use K bro :("<cr><up>
-noremap <down> :echo "Use J bro :("<cr><down>
-noremap <esc> :echo "Don't even think of ESC. Use jk or kj :)"<cr><esc>
+"noremap <left> :echo "Use H bro :("<cr><left>
+"noremap <right> :echo "Use L bro :("<cr><right>
+"noremap <up> :echo "Use K bro :("<cr><up>
+"noremap <down> :echo "Use J bro :("<cr><down>
+"noremap <esc> :echo "Don't even think of ESC. Use jk or kj :)"<cr><esc>
 " + }}}
 
 " + Vim Pluggings mappings --------------------------------------------------{{{
@@ -372,6 +376,11 @@ inoremap <silent><expr> <TAB>
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 inoremap <silent><expr> <C-space> coc#refresh()
+
+
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+
 " ++ }}}
 
 " ++ FuGITive mappings ------------------------------------------------------{{{
@@ -387,7 +396,17 @@ nmap <C-Q> <Plug>BujoChecknormal
 imap <C-Q> <Plug>BujoCheckinsert
 " ++ }}}
 
+
+" Vim-sneak mappings --------------------------------------------------------{{{
+"map t <Plug>Sneak_f
+"map T <Plug>Sneak_F
+" ++ }}}
+
 " Iris mappings --------------------------------------------------------{{{
+" ++ }}}
+
+" Close tags mappings --------------------------------------------------------{{{
+let g:closetag_filenames = '*.html,*.xhtml,*.js,*.ts,*.jsx,*.tsx'
 " ++ }}}
 
 " + }}}
@@ -443,5 +462,6 @@ iabbrev @@ perseo.gi98@gmail.com
 
 
 " Experimental stuff
+
 
 " vim:foldmethod=marker:foldlevel=4

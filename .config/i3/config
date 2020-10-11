@@ -213,6 +213,7 @@ bindsym Control+Shift+L exec systemctl suspend
 set $i3_resurrect i3-resurrect
 
 # Save workspace mode.
+# TODO: something is not working...
 mode "save" {
   bindsym 1 exec $i3_resurrect save -w 1
   bindsym 2 exec $i3_resurrect save -w 2
