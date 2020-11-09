@@ -55,7 +55,7 @@ highlight ColorColumn ctermbg=0 guibg=lightgrey
 call plug#begin('~/.vim/plugged')
 Plug 'gruvbox-community/gruvbox'        " Colorscheme
 Plug 'sainnhe/gruvbox-material'
-Plug 'vim-utils/vim-man'                " Man pages
+"Plug 'vim-utils/vim-man'                " Man pages
 Plug 'tpope/vim-fugitive'               " Git blames, logs...
 
 " To avoid file not found errors on C/C++, compile_commands.json must be
@@ -63,7 +63,7 @@ Plug 'tpope/vim-fugitive'               " Git blames, logs...
 Plug 'neoclide/coc.nvim', {'branch': 'release'}     " Completer
 " To enable configure coc-settings.json with
 "       clangd.semanticHighlighting": true
-Plug 'jackguo380/vim-lsp-cxx-highlight' " Syntax highlighter for C/C++ to be used with Coc
+Plug 'jackguo380/vim-lsp-cxx-highlight' " Syntax highlighter for C/C++ to be used with Coc [semanticHighlighting]
 
 Plug 'tweekmonster/gofmt.vim'
 Plug 'mbbill/undotree'
@@ -72,7 +72,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
 Plug 'zhou13/vim-easyescape'
-Plug 'prabirshrestha/async.vim'
+"Plug 'prabirshrestha/async.vim'
 "Plug 'prabirshrestha/vim-lsp'
 "Plug 'prabirshrestha/asyncomplete.vim'
 "Plug 'prabirshrestha/asyncomplete-lsp.vim'
@@ -86,10 +86,11 @@ Plug 'vim-airline/vim-airline-themes'
 "Plug 'justinmk/vim-sneak'               " Vim search word given two letters  TODO pensar si cambiarlo a f
 Plug 'jiangmiao/auto-pairs'             " Auto open close pairs, best plug of Augost-2020
 Plug 'soywod/iris.vim'                  " Email client
-Plug 'mcchrish/nnn.vim'
+"Plug 'mcchrish/nnn.vim'
 "Plug 'floobits/floobits-neovim'         " Colaborate Vim ~= VSCode Live Share pluggin or Atom Teletype
 " After having tested coc-html, coc-emmet, coc-snippets, this is the best option for auto-closing html tags on jsx
 Plug 'alvan/vim-closetag'
+Plug 'ryanoasis/vim-devicons'           " Icons for coc-explorer
 call plug#end()
 
 " + Vim pluggins settings ---------------------------------------------------{{{
@@ -130,6 +131,23 @@ set background=dark
 
 " ++ }}}
 
+
+" ++ CoC  config -------------------------------------------------------{{{
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
+
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+" ++ }}}
+
 " ++ VimBeGood config -------------------------------------------------------{{{
 let g:vim_be_good_floating = 0
 " ++ }}}
@@ -160,14 +178,11 @@ let loaded_matchparen = 1
 " ++ }}}
 
 " ++ Browser tree configuration ---------------------------------------------{{{
+let loaded_netrwPlugin = 1  " Disable netrw on open
 let g:netrw_browse_split = 2
 let g:vrfr_rg = 'true'
 let g:netrw_banner = 0  " Disable help info on browser tree
 let g:netrw_winsize = 25
-
-
-"let g:loaded_netrw       = 1
-"let loaded_netrwPlugin = 1
 "" ++ }}}
 
 " ++ vim-easyescape ---------------------------------------------------------{{{
@@ -211,7 +226,8 @@ let g:nnn#layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Debu
 autocmd StdinReadPre * let s:std_in=1
 "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NnnPicker | endif
 "autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | NnnPicker| endif
+"autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | NnnPicker| endif
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'CocCommand explorer' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 "autocmd vimenter * NnnPicker
 "++ }}}
 
@@ -344,7 +360,8 @@ nnoremap <C-p> :GFiles<CR>
 " Files is the best alternative for GFiles when there is no git initialized
 nnoremap <Leader>pf :Files<CR>
 " Open classical Ex-plorer on the left
-nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+nnoremap <leader>pv :CocCommand explorer --quit-on-open<CR>
+"nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 
 " <leader>n  to open nnn explorer => great sustitute of Ex
 
@@ -356,24 +373,12 @@ nmap <leader>gy <Plug>(coc-type-definition)
 nmap <leader>gi <Plug>(coc-implementation)
 nmap <leader>gr <Plug>(coc-references)
 nmap <leader>rr <Plug>(coc-rename)
-nmap <leader>g[ <Plug>(coc-diagnostic-prev)
-nmap <leader>g] <Plug>(coc-diagnostic-next)
+nmap <leader>[ <Plug>(coc-diagnostic-prev)
+nmap <leader>] <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
 nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
 nnoremap <leader>cr :CocRestart
 
-" CoC config
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ coc#refresh()
-
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 inoremap <silent><expr> <C-space> coc#refresh()
 
@@ -417,6 +422,12 @@ let g:closetag_filenames = '*.html,*.xhtml,*.js,*.ts,*.jsx,*.tsx'
 " Remember last position in buffer
 autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
+" Tab size for JS and TS files
+augroup TabSize
+    autocmd!
+    autocmd FileType javascript,typescript set tabstop=2 softtabstop=2 shiftwidth=2
+augroup END
+
 " Configure wrap mode only on Markdown files
 augroup Markdown
     autocmd!
@@ -444,8 +455,8 @@ endfun
 "   3. Applying macro to those lines
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 function! ExecuteMacroOverVisualRange()
-  echo "@".getcmdline()
-  execute ":'<,'>normal @".nr2char(getchar())
+    echo "@".getcmdline()
+    execute ":'<,'>normal @".nr2char(getchar())
 endfunction
 
 " }}}
@@ -453,6 +464,7 @@ endfunction
 " Custom abbreviations ------------------------------------------------------{{{
 iabbrev clog console.log(
 iabbrev @@ perseo.gi98@gmail.com
+iabbrev af () => {}<left><CR><Tab>
 " }}}
 
 " Deprecated stuff ----------------------------------------------------------{{{
@@ -462,6 +474,5 @@ iabbrev @@ perseo.gi98@gmail.com
 
 
 " Experimental stuff
-
 
 " vim:foldmethod=marker:foldlevel=4
