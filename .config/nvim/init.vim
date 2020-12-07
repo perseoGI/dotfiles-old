@@ -91,6 +91,8 @@ Plug 'soywod/iris.vim'                  " Email client
 " After having tested coc-html, coc-emmet, coc-snippets, this is the best option for auto-closing html tags on jsx
 Plug 'alvan/vim-closetag'
 Plug 'ryanoasis/vim-devicons'           " Icons for coc-explorer
+Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 call plug#end()
 
 " + Vim pluggins settings ---------------------------------------------------{{{
@@ -138,10 +140,10 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ coc#refresh()
+"inoremap <silent><expr> <TAB>
+            "\ pumvisible() ? "\<C-n>" :
+            "\ <SID>check_back_space() ? "\<TAB>" :
+            "\ coc#refresh()
 
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " Add `:Format` command to format current buffer.
@@ -379,12 +381,15 @@ nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
 nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
 nnoremap <leader>cr :CocRestart
 
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 inoremap <silent><expr> <C-space> coc#refresh()
 
 
 " Use <C-l> for trigger snippet expand.
 imap <C-l> <Plug>(coc-snippets-expand)
+
+" Go to header (C/C++)
+noremap <leader>gth :CocCommand clangd.switchSourceHeader<cr>
 
 " ++ }}}
 

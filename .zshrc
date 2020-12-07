@@ -55,3 +55,6 @@ alias ll='exa -lh'
 neofetch
 
 PATH=$PATH:/home/perseo/Documents/codes/scripts:/usr/local/arm/gcc-arm-none-eabi-4_9-2015q3/bin
+
+# Add pip installed packages
+PATH="${PATH}:$(python3 -c 'import site; print(site.USER_BASE)')/bin"
