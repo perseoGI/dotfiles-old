@@ -178,15 +178,36 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        height 25
-        separator_symbol "    "
-	    position top
-        status_command i3status -c ~/.config/i3/i3status.conf
-        tray_output primary
-        font pango:Consolas 10
-}
+# Testing polybar
+#bar {
+        #height 25
+        #separator_symbol "    "
+		#position top
+        #status_command i3status -c ~/.config/i3/i3status.conf
+        #tray_output primary
+        #font pango:Consolas 10
+#}
 
+
+# i3status-rs config... cant be centered :( bad for ultrawide
+#bar {
+    #font pango:DejaVu Sans Mono, FontAwesome 12
+    #position top
+    #height 25
+    #status_command /usr/bin/i3status-rs /home/perseo/.config/i3status-rust/config.toml
+    #colors {
+        #separator #666666
+        #background #222222
+        #statusline #dddddd
+        #focused_workspace #0088CC #0088CC #ffffff
+        #active_workspace #333333 #333333 #ffffff
+        #inactive_workspace #333333 #333333 #888888
+        #urgent_workspace #2f343a #900000 #ffffff
+    #}
+#}
+
+# Startup polybar daemon
+exec_always --no-startup-id pkill polybar; polybar -r main
 
 # ------------------------------------------
 # CUSTOM @perseoGI KEYS START
