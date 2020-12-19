@@ -1,0 +1,8 @@
+#!/bin/bash
+
+
+# obtained from: https://stackoverflow.com/a/18062444/10474917
+
+nvidia-settings --load-config-only --assign="SyncToVBlank=0"  # disable vertical sync
+glxgears  # test it out
+nvidia-settings --load-config-only  # restore your original vertical sync setting

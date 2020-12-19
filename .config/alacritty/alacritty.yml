@@ -32,8 +32,9 @@ colors:
 
 font:
   normal:
-    #family: Source Code Pro
     family: SauceCodePro Nerd Font Mono
+    #family: JetBrains Mono
+    #family: DejaVu Sans Mono
     #family: UbuntuMono Nerd Font Mono
     style: Regular
 

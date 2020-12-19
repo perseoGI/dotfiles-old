@@ -25,10 +25,6 @@ source $ZSH/oh-my-zsh.sh
 bindkey "^P" up-line-or-search
 bindkey "^N" down-line-or-search
 
-
-# Configure keyboard layout with english international without unconfortable dead keys
-setxkbmap -rules evdev -model evdev -layout us -variant altgr-intl
-
 export VISUAL="nvim"
 export EDITOR="nvim"
 export READER="okular"
@@ -44,8 +40,10 @@ export NVM_DIR="$HOME/.nvm"
 
 alias pac='sudo pacman -S'
 alias vim=nvim
+alias v=nvim
 alias dotfiles='/usr/bin/git --git-dir=/home/perseo/.dotfiles/ --work-tree=/home/perseo'
 alias alacritty='WINIT_HIDPI_FACTOR=1 alacritty'
+
 # Use exa, ls made in Rust, with color highlighting
 alias l='exa -lagh'
 alias ll='exa -lh'
@@ -54,7 +52,14 @@ alias ll='exa -lh'
 # Execute when opening a terminal
 neofetch
 
-PATH=$PATH:/home/perseo/Documents/codes/scripts:/usr/local/arm/gcc-arm-none-eabi-4_9-2015q3/bin
+# Export custom script and arm compiler
+PATH=$PATH:/home/perseo/scripts:/usr/local/arm/gcc-arm-none-eabi-4_9-2015q3/bin
 
 # Add pip installed packages
 PATH="${PATH}:$(python3 -c 'import site; print(site.USER_BASE)')/bin"
+
+PATH="/home/perseo/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/perseo/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/perseo/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/perseo/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/perseo/perl5"; export PERL_MM_OPT;

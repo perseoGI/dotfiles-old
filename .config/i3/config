@@ -17,7 +17,10 @@ smart_borders on
 # Set inner and outer gaps
 #gaps inner 24
 #gaps outer 10
+
 gaps inner 10
+gaps outer 5
+gaps top 27
 
 
                           # class                 border  backgr. text    indicator child_border
@@ -278,6 +281,11 @@ exec_always --no-startup-id pkill polybar; polybar -r main
 
 # Startup picom compositor daemon
 exec_always --no-startup-id pkill picom; picom --no-use-damage
+
+# Set keybaord layout
+# Configure keyboard layout with english international without unconfortable dead keys
+exec_always --no-startup-id /home/perseo/scripts/set-keyboard-layout us
+
 
 # Deprectaed or copied
 

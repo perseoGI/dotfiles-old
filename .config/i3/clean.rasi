@@ -47,10 +47,10 @@ configuration {
 }
 
 /*#window {*/
-    /*width: 30%;*/
-    /*height: 80%;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
     /*background-color: @background;*/
-    /*padding:          200;*/
+    /*padding:          500;*/
 /*}*/
 
 #window {

@@ -1,0 +1,6 @@
+if [ $# -eq 0 ]; then
+    sudo -u perseo DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus notify-send "[USAGE]: $0 <msg>"
+else
+    sudo -u perseo DISPLAY=:0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus notify-send "$@"
+fi
+
