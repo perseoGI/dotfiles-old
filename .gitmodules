@@ -1,3 +1,6 @@
 [submodule "scripts/scripts/hyperx-cloud-flight"]
 	path = scripts/scripts/hyperx-cloud-flight
 	url = git@github.com:perseoGI/hyperx-cloudflight-service.git
+[submodule "scripts/hyperx-cloud-flight"]
+	path = scripts/hyperx-cloud-flight
+	url = https://github.com/perseoGI/hyperx-cloudflight-service.git
