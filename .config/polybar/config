@@ -38,6 +38,7 @@ gradient-7 =  #E02700
 gradient-8 =  #E5002D
 gradient-9 =  #E10073
 gradient-10 = #C000D9
+gradient-11 = #7900D5
 
 
 [bar/main]
@@ -86,7 +87,7 @@ font-4 = Font Awesome 5 Free Solid:style=Solid;+2
 
 ; Moved everything to the center because I use an ultrawide (5120 x 1440)
 modules-left = xwindow
-modules-center = i3 time date xkeyboard memory cpu gpu-usage eth temperature fs-root fs-hdd headset-battery-level powermenu
+modules-center = i3 time date xkeyboard memory cpu gpu-usage eth temperature fs-root fs-hdd headset-battery-level headset-mic-status powermenu
 modules-right =  pulseaudio apple-music apple-music-prev apple-music-play-pause apple-music-next
 
 tray-position = right
@@ -140,7 +141,7 @@ type = internal/date
 interval = 1
 time = %H:%M:%S
 format-prefix = 🕑
-format-prefix-foreground = ${colors.foreground-alt}
+;format-prefix-foreground = ${colors.foreground-alt}
 format-underline = ${colors.gradient-0}
 label = " %time%"
 
@@ -149,7 +150,7 @@ type = internal/date
 interval = 1
 date = " %d-%m-%Y"
 format-prefix = 
-format-prefix-foreground = ${colors.foreground-alt}
+;format-prefix-foreground = ${colors.foreground-alt}
 format-underline = ${colors.gradient-1}
 label = %date%
 
@@ -158,7 +159,7 @@ type = internal/xkeyboard
 blacklist-0 = num lock
 
 format-prefix = "⌨ "
-format-prefix-foreground = ${colors.foreground-alt}
+;format-prefix-foreground = ${colors.foreground-alt}
 format-prefix-underline = ${colors.gradient-2}
 
 label-layout = %layout%
@@ -169,14 +170,14 @@ label-indicator-margin = 1
 label-indicator-background = ${colors.secondary}
 label-indicator-underline = ${colors.gradient-2}
 
-format = %{A1:~/scripts/switch-keyboard-layout & :}<label-layout> <label-indicator>%{A}
+format = %{A1:~/scripts/keyboard-layout/switch-keyboard-layout & :}<label-layout> <label-indicator>%{A}
 
 
 [module/memory]
 type = internal/memory
 interval = 2
 format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
+;format-prefix-foreground = ${colors.foreground-alt}
 ;format-underline = #4bffdc
 format-underline = ${colors.gradient-3}
 label = %percentage_used%%
@@ -186,7 +187,7 @@ type = internal/cpu
 interval = 2
 ;format-prefix = "💻"
 format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
+;format-prefix-foreground = ${colors.foreground-alt}
 format-underline = ${colors.gradient-4}
 label = %percentage:2%%
 
@@ -197,7 +198,7 @@ format-prefix = " "
 format = <label>%
 exec = nvidia-smi --format=csv --query-gpu=utilization.gpu | tail -1 | cut -d ' ' -f 1
 format-underline = ${colors.gradient-5}
-format-prefix-foreground = ${colors.foreground-alt}
+;format-prefix-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
@@ -207,7 +208,7 @@ interval = 3.0
 format-connected-underline = ${colors.gradient-6}
 format-connected-prefix = " "
 ;format-connected-prefix = ""
-format-connected-prefix-foreground = ${colors.foreground-alt}
+;format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = %local_ip%
 
 format-disconnected =
@@ -235,7 +236,7 @@ ramp-0 = 
 ramp-1 = 
 ramp-2 = 
 ramp-3 = 
-ramp-foreground = ${colors.foreground-alt}
+;ramp-foreground = ${colors.foreground-alt}
 
 [module/fs-root]
 type = internal/fs
@@ -260,8 +261,16 @@ type = custom/script
 tail = true
 format-prefix = " "
 format = <label>
-exec = ~/scripts/hyperx-get-battery-headset-wrapper
+exec = ~/scripts/hyperx-cloud-flight/hyperx-get-battery-headset-wrapper
 format-underline = ${colors.gradient-10}
+
+[module/headset-mic-status]
+type = custom/ipc
+hook-0 = echo "  "
+hook-1 = echo "%{F#f00}  "
+initial = 1
+format-underline = ${colors.gradient-11}
+
 
 [module/powermenu]
 type = custom/menu
@@ -339,7 +348,7 @@ type = custom/script
 tail = true
 format-prefix = " "
 format = <label>
-exec = ~/scripts/scroll_apple_music_status.sh
+exec = ~/scripts/music-controller/scroll_apple_music_status.sh
 
 [module/apple-music-prev]
 type = custom/script

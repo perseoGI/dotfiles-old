@@ -13,6 +13,10 @@ For installation and configuration:
 
     ./setup.sh
 
+You should have this rule on udev to allow polybar capture hyperx headset battery
+cat /etc/udev/rules.d/polybar-hud.rules
+ACTION=="add", KERNEL=="hidraw[0-9]*", ATTRS{idProduct}=="16c4", ATTRS{idVendor}=="0951", MODE="0666"
+
 # TODO
 
 There is a lot of work to do here :3

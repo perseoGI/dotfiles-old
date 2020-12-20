@@ -284,7 +284,10 @@ exec_always --no-startup-id pkill picom; picom --no-use-damage
 
 # Set keybaord layout
 # Configure keyboard layout with english international without unconfortable dead keys
-exec_always --no-startup-id /home/perseo/scripts/set-keyboard-layout us
+exec_always --no-startup-id /home/perseo/scripts/keyboard-layout/set-keyboard-layout us
+
+# Start up hyperx headset server (remove unlink when fixed socket)
+exec_always --no-startup-id pkill hyperx-service; unlink /tmp/hyperx-service; /home/perseo/scripts/hyperx-cloud-flight/hyperx-service
 
 
 # Deprectaed or copied
