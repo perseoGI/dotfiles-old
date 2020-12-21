@@ -281,6 +281,7 @@ exec_always --no-startup-id pkill polybar; polybar -r main
 
 # Startup picom compositor daemon
 exec_always --no-startup-id pkill picom; picom --no-use-damage
+#exec_always --no-startup-id pkill picom; picom --config=/dev/null --backend=xrender --experimental-backends
 
 # Set keybaord layout
 # Configure keyboard layout with english international without unconfortable dead keys
