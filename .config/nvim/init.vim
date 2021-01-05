@@ -93,6 +93,8 @@ Plug 'alvan/vim-closetag'
 Plug 'ryanoasis/vim-devicons'           " Icons for coc-explorer
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+Plug 'bfredl/nvim-miniyank'  " Apple support to  V-Block copy-paste
+
 call plug#end()
 
 " + Vim pluggins settings ---------------------------------------------------{{{
@@ -319,6 +321,10 @@ nnoremap <leader>p "+p
 nnoremap <leader>P "+P
 vnoremap <leader>p "+p
 vnoremap <leader>P "+P
+
+" This allows to use unnamedplus clipboard in combination of ^V block pasting
+map p <Plug>(miniyank-autoput)
+map P <Plug>(miniyank-autoPut)
 " + }}}
 
 
