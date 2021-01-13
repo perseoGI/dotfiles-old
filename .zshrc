@@ -15,6 +15,7 @@ plugins=(
     zsh-autosuggestions
     zsh-syntax-highlighting
     zsh-vim-mode
+    zsh-z
 )
 
 source $ZSH/oh-my-zsh.sh
