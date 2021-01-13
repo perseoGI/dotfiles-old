@@ -35,6 +35,7 @@ set undofile                    " Store modified file per file in undo directory
 " + }}}
 
 " + GUI settings ------------------------------------------------------------{{{
+set mouse=a                     " Yes... but only for some special cases
 set scrolloff=8
 set guicursor=
 set termguicolors
@@ -93,7 +94,10 @@ Plug 'alvan/vim-closetag'
 Plug 'ryanoasis/vim-devicons'           " Icons for coc-explorer
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-Plug 'bfredl/nvim-miniyank'  " Apple support to  V-Block copy-paste
+"Plug 'bfredl/nvim-miniyank'  " Apple support to  V-Block copy-paste
+Plug 'puremourning/vimspector', {
+  \ 'do': 'python3 install_gadget.py --enable-vscode-cpptools'
+  \ }
 
 call plug#end()
 
@@ -285,8 +289,51 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Surround with quotation marks
-nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
-nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
+"nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+"nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
+"nnoremap <leader>` viw<esc>a`<esc>bi`<esc>lel
+"vnoremap <leader>" va"<esc>gvo<esc>i"<esc>gvov
+"vnoremap <leader>' va'<esc>gvo<esc>i'<esc>gvov
+"vnoremap <leader>` va`<esc>gvo<esc>i`<esc>gvov
+
+" Surround with { } visual selections, V-line selections and V-block
+" selections
+" \e == <esc>
+" `< == gvo<esc> (go to the begining of the previous selection) more precise
+" `> == gvo<esc> (go to the end of the previous selection)
+xnoremap <expr> <leader>{ {
+\  'v': "\e`>a}\e`<i{\e",
+\  'V': "\e`>o}\e`<O{\eva{=",
+\  '<c-v>': "A}\egvI{\e",
+\ }[mode()]
+
+" Idem for []
+xnoremap <expr> <leader>[ {
+\  'v': "\e`>a]\e`<i[\e",
+\  'V': "\e`>a]\e`<i[\e",
+\  '<c-v>': "A]\egvI[\e",
+\ }[mode()]
+
+" Idem for ""
+xnoremap <expr> <leader>" {
+\  'v': "\e`>a\"\e`<i\"\e",
+\  'V': "\e`>a\"\e`<i\"\e",
+\  '<c-v>': "A\"\egvI\"\e",
+\ }[mode()]
+
+" Idem for ''
+xnoremap <expr> <leader>' {
+\  'v': "\e`>a\'\e`<i\'\e",
+\  'V': "\e`>a\'\e`<i\'\e",
+\  '<c-v>': "A\'\egvI\'\e",
+\ }[mode()]
+
+" Idem for ``
+xnoremap <expr> <leader>` {
+\  'v': "\e`>a\`\e`<i\`\e",
+\  'V': "\e`>a\`\e`<i\`\e",
+\  '<c-v>': "A\`\egvI\`\e",
+\ }[mode()]
 
 " Auto indent all file
 nnoremap <Leader>i gg=G<C-o>
@@ -323,8 +370,8 @@ vnoremap <leader>p "+p
 vnoremap <leader>P "+P
 
 " This allows to use unnamedplus clipboard in combination of ^V block pasting
-map p <Plug>(miniyank-autoput)
-map P <Plug>(miniyank-autoPut)
+"map p <Plug>(miniyank-autoput)
+"map P <Plug>(miniyank-autoPut)
 " + }}}
 
 
@@ -423,6 +470,25 @@ imap <C-Q> <Plug>BujoCheckinsert
 
 " Close tags mappings --------------------------------------------------------{{{
 let g:closetag_filenames = '*.html,*.xhtml,*.js,*.ts,*.jsx,*.tsx'
+" ++ }}}
+
+" Vimspector mappings --------------------------------------------------------{{{
+" TODO personalizar
+command! -nargs=+ Vfb call vimspector#AddFunctionBreakpoint(<f-args>)
+
+let maplocalleader="\<space>"
+let g:vimspector_enable_mappings = 'HUMAN'
+nnoremap <localleader>gl :call vimspector#Launch()<cr>
+nnoremap <localleader>gc :call vimspector#Continue()<cr>
+nnoremap <localleader>gs :call vimspector#Stop()<cr>
+nnoremap <localleader>gR :call vimspector#Restart()<cr>
+nnoremap <localleader>gp :call vimspector#Pause()<cr>
+nnoremap <localleader>gb :call vimspector#ToggleBreakpoint()<cr>
+nnoremap <localleader>gB :call vimspector#ToggleConditionalBreakpoint()<cr>
+nnoremap <localleader>gn :call vimspector#StepOver()<cr>
+nnoremap <localleader>gi :call vimspector#StepInto()<cr>
+nnoremap <localleader>go :call vimspector#StepOut()<cr>
+"nnoremap <localleader>gr :call vimspector#RunToCursor()<cr>
 " ++ }}}
 
 " + }}}
