@@ -1,5 +1,8 @@
 # Path to your oh-my-zsh installation.
-export ZSH="/home/perseo/.oh-my-zsh"
+
+export ZSH="${HOME}/.oh-my-zsh"
+#export ZSH="/home/perseo/.oh-my-zsh"
+#export ZSH="/Users/perseo/.oh-my-zsh"
 
 ZSH_THEME="agnoster"
 
@@ -14,7 +17,7 @@ plugins=(
     colored-man-pages
     zsh-autosuggestions
     zsh-syntax-highlighting
-    zsh-vim-mode
+ #  zsh-vim-mode
     zsh-z
 )
 
@@ -44,7 +47,7 @@ alias pac='sudo pacman -S'
 alias vim=/bin/nvim
 #alias vim=nvim
 alias v=nvim
-alias dotfiles='/usr/bin/git --git-dir=/home/perseo/.dotfiles/ --work-tree=/home/perseo'
+alias dotfiles='/usr/bin/git --git-dir=${HOME}/.dotfiles/ --work-tree=${HOME}'
 alias alacritty='WINIT_HIDPI_FACTOR=1 alacritty'
 
 # Use exa, ls made in Rust, with color highlighting
@@ -66,3 +69,8 @@ PERL5LIB="/home/perseo/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LI
 PERL_LOCAL_LIB_ROOT="/home/perseo/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/perseo/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/perseo/perl5"; export PERL_MM_OPT;
+
+# Export GNAT compiler
+PATH=$PATH:/Users/Perseo/opt/GNAT/2020/bin
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

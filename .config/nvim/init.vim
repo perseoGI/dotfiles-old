@@ -94,7 +94,7 @@ Plug 'alvan/vim-closetag'
 Plug 'ryanoasis/vim-devicons'           " Icons for coc-explorer
 Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-"Plug 'bfredl/nvim-miniyank'  " Apple support to  V-Block copy-paste
+Plug 'bfredl/nvim-miniyank'  " Apple support to  V-Block copy-paste
 Plug 'puremourning/vimspector', {
   \ 'do': 'python3 install_gadget.py --enable-vscode-cpptools'
   \ }
@@ -178,6 +178,17 @@ let g:go_highlight_generate_tags = 1
 let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_auto_sameids = 1
+" ++ }}}
+
+" ++ fzf settings -------------------------------------------------------{{{
+"command! -bang -nargs=? -complete=dir Files
+    "\ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+
+"command! -bang -nargs=? -complete=dir GFiles
+    "\ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+
+" TODO mac only
+set rtp+=/usr/local/opt/fzf
 " ++ }}}
 
 " ++ RipGrep settings -------------------------------------------------------{{{
@@ -405,7 +416,7 @@ nnoremap <leader>u :UndotreeShow<CR>
 " Find current word in the project using rg
 nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
 " Find a word on project using rg
-nnoremap <Leader>ps :Rg<SPACE>
+nnoremap <Leader>ps :Rg<CR>
 " Find and refactor current word in the project
 nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
 " Open vim help for current word
@@ -496,7 +507,8 @@ let maplocalleader="\<space>"
 let g:vimspector_enable_mappings = 'HUMAN'
 nnoremap <localleader>gl :call vimspector#Launch()<cr>
 nnoremap <localleader>gc :call vimspector#Continue()<cr>
-nnoremap <localleader>gs :call vimspector#Stop()<cr>
+"nnoremap <localleader>gs :call vimspector#Stop()<cr>
+nnoremap <localleader>gs :call vimspector#Reset()<cr>
 nnoremap <localleader>gR :call vimspector#Restart()<cr>
 nnoremap <localleader>gp :call vimspector#Pause()<cr>
 nnoremap <localleader>gb :call vimspector#ToggleBreakpoint()<cr>
