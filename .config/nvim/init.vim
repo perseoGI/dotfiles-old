@@ -99,7 +99,10 @@ Plug 'puremourning/vimspector', {
   \ 'do': 'python3 install_gadget.py --enable-vscode-cpptools'
   \ }
 
+Plug 'neovim/nvim-lspconfig'  " Only for nvim > 5.0
+Plug 'hugolgst/vimsence'
 call plug#end()
+
 
 " + Vim pluggins settings ---------------------------------------------------{{{
 
@@ -475,6 +478,19 @@ let g:closetag_filenames = '*.html,*.xhtml,*.js,*.ts,*.jsx,*.tsx'
 " Vimspector mappings --------------------------------------------------------{{{
 " TODO personalizar
 command! -nargs=+ Vfb call vimspector#AddFunctionBreakpoint(<f-args>)
+" ++ }}}
+
+
+" Vimspector mappings --------------------------------------------------------{{{
+let g:vimsence_client_id = '800067643536834592'
+let g:vimsence_small_text = 'NeoVim'
+let g:vimsence_small_image = 'neovim'
+let g:vimsence_editing_details = 'Editing: {}'
+let g:vimsence_editing_state = 'Working on: {}'
+let g:vimsence_file_explorer_text = 'In NERDTree'
+let g:vimsence_file_explorer_details = 'Looking for files'
+let g:vimsence_custom_icons = {'filetype': 'iconname'}
+" ++ }}}
 
 let maplocalleader="\<space>"
 let g:vimspector_enable_mappings = 'HUMAN'
@@ -549,7 +565,7 @@ iabbrev af () => {}<left><CR><Tab>
 "map <C-k> <Plug>(Man)
 " }}}
 
+"nnoremap <leader>aj
 
 " Experimental stuff
-
 " vim:foldmethod=marker:foldlevel=4

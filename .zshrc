@@ -39,8 +39,10 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+alias nvim=~/sources/nvim.appimage
 alias pac='sudo pacman -S'
-alias vim=nvim
+alias vim=/bin/nvim
+#alias vim=nvim
 alias v=nvim
 alias dotfiles='/usr/bin/git --git-dir=/home/perseo/.dotfiles/ --work-tree=/home/perseo'
 alias alacritty='WINIT_HIDPI_FACTOR=1 alacritty'

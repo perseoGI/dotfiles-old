@@ -154,6 +154,16 @@ format-prefix = 
 format-underline = ${colors.gradient-1}
 label = %date%
 
+
+;type = custom/script
+;exec = ~/scripts/popup-calendar.sh
+;interval = 5
+;click-left = ~/scripts/popup-calendar.sh --popup
+;format-background = ${colors.alt-background}
+;format-foreground = ${colors.alt-foreground}
+;label = %output:25%
+
+
 [module/xkeyboard]
 type = internal/xkeyboard
 blacklist-0 = num lock
