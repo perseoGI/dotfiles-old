@@ -18,6 +18,7 @@ plugins=(
     zsh-autosuggestions
     zsh-syntax-highlighting
  #  zsh-vim-mode
+    zsh-z
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -69,3 +70,5 @@ PERL_MM_OPT="INSTALL_BASE=/home/perseo/perl5"; export PERL_MM_OPT;
 
 # Export GNAT compiler
 PATH=$PATH:/Users/Perseo/opt/GNAT/2020/bin
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
