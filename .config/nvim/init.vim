@@ -302,13 +302,12 @@ vnoremap K :m '<-2<CR>gv=gv
 vnoremap < <gv
 vnoremap > >gv
 
-" Surround with quotation marks
-"nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
-"nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
-"nnoremap <leader>` viw<esc>a`<esc>bi`<esc>lel
-"vnoremap <leader>" va"<esc>gvo<esc>i"<esc>gvov
-"vnoremap <leader>' va'<esc>gvo<esc>i'<esc>gvov
-"vnoremap <leader>` va`<esc>gvo<esc>i`<esc>gvov
+" Surround with quotation marks and {, [ a single word under the cursor
+nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
+nnoremap <leader>` viw<esc>a`<esc>bi`<esc>lel
+nnoremap <leader>{ viw<esc>a}<esc>bi{<esc>lel
+nnoremap <leader>[ viw<esc>a]<esc>bi[<esc>lel
 
 " Surround with { } visual selections, V-line selections and V-block
 " selections
@@ -364,6 +363,14 @@ onoremap in( :<c-u>normal! f(vi(<cr>
 onoremap il( :<c-u>normal! F)vi(<cr>
 onoremap in{ :<c-u>normal! f{vi{<cr>
 onoremap il{ :<c-u>normal! F}vi{<cr>
+
+
+" Open terminal mappings
+" Horizontal term
+nnoremap <leader>t :sp<CR><C-w>r:term<CR>:set nonumber<CR>:set norelativenumber<CR>
+" Vertical term
+nnoremap <leader>T :vs<CR><C-w>r:term<CR>:set nonumber<CR>:set norelativenumber<CR>
+
 " + }}}
 
 " + Clipboard config --------------------------------------------------------{{{
@@ -496,8 +503,8 @@ command! -nargs=+ Vfb call vimspector#AddFunctionBreakpoint(<f-args>)
 let g:vimsence_client_id = '800067643536834592'
 let g:vimsence_small_text = 'NeoVim'
 let g:vimsence_small_image = 'neovim'
-let g:vimsence_editing_details = 'Editing: {}'
-let g:vimsence_editing_state = 'Working on: {}'
+let g:vimsence_editing_details = 'Olfateanding en: {}'
+let g:vimsence_editing_state = 'Curranding en: {}'
 let g:vimsence_file_explorer_text = 'In NERDTree'
 let g:vimsence_file_explorer_details = 'Looking for files'
 let g:vimsence_custom_icons = {'filetype': 'iconname'}
@@ -508,7 +515,7 @@ let g:vimspector_enable_mappings = 'HUMAN'
 nnoremap <localleader>gl :call vimspector#Launch()<cr>
 nnoremap <localleader>gc :call vimspector#Continue()<cr>
 "nnoremap <localleader>gs :call vimspector#Stop()<cr>
-nnoremap <localleader>gs :call vimspector#Reset()<cr>
+nnoremap <localleader>gR :call vimspector#Reset()<cr>
 nnoremap <localleader>gR :call vimspector#Restart()<cr>
 nnoremap <localleader>gp :call vimspector#Pause()<cr>
 nnoremap <localleader>gb :call vimspector#ToggleBreakpoint()<cr>
@@ -577,7 +584,14 @@ iabbrev af () => {}<left><CR><Tab>
 "map <C-k> <Plug>(Man)
 " }}}
 
+" Deprecated
+"vnoremap <leader>" va"<esc>gvo<esc>i"<esc>gvov
+"vnoremap <leader>' va'<esc>gvo<esc>i'<esc>gvov
+"vnoremap <leader>` va`<esc>gvo<esc>i`<esc>gvov
 "nnoremap <leader>aj
 
 " Experimental stuff
+
+
+
 " vim:foldmethod=marker:foldlevel=4

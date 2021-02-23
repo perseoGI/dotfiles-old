@@ -17,7 +17,6 @@ plugins=(
     colored-man-pages
     zsh-autosuggestions
     zsh-syntax-highlighting
- #  zsh-vim-mode
     zsh-z
 )
 
@@ -46,7 +45,7 @@ alias nvim=~/sources/nvim.appimage
 alias pac='sudo pacman -S'
 alias vim=/bin/nvim
 #alias vim=nvim
-alias v=nvim
+alias v=~/sources/nvim.appimage
 alias dotfiles='/usr/bin/git --git-dir=${HOME}/.dotfiles/ --work-tree=${HOME}'
 alias alacritty='WINIT_HIDPI_FACTOR=1 alacritty'
 

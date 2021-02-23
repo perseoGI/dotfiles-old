@@ -1,8 +1,8 @@
 [user]
 	name = Perseo
-	email = alejandro-perseo.gutierrez.izquierdo@alumnos.upm.es
+	email = perseo.gi98@gmail.com
 [core]
-	editor = nvim
+	editor = /home/perseo/sources/nvim.appimage
 [alias]
 	s = status -sb
 	l = log --graph --decorate --oneline
