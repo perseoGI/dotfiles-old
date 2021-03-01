@@ -16,7 +16,7 @@ set updatetime=50
 " + }}}
 
 " + Text editor -------------------------------------------------------------{{{
-set tabstop=4 softtabstop=4
+set tabstop=8 softtabstop=4
 set shiftwidth=4
 set expandtab                   " Convert tab character to spaces
 set smartindent                 " Best job to indent for you
@@ -45,7 +45,7 @@ set cmdheight=2
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
 " Column mark
-set colorcolumn=100
+set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 " + }}}
 
@@ -521,7 +521,7 @@ nnoremap <localleader>gp :call vimspector#Pause()<cr>
 nnoremap <localleader>gb :call vimspector#ToggleBreakpoint()<cr>
 nnoremap <localleader>gB :call vimspector#ToggleConditionalBreakpoint()<cr>
 nnoremap <localleader>gn :call vimspector#StepOver()<cr>
-nnoremap <localleader>gi :call vimspector#StepInto()<cr>
+"nnoremap <localleader>gi :call vimspector#StepInto()<cr>
 nnoremap <localleader>go :call vimspector#StepOut()<cr>
 "nnoremap <localleader>gr :call vimspector#RunToCursor()<cr>
 " ++ }}}
