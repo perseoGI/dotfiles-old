@@ -45,7 +45,7 @@ set cmdheight=2
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
 " Column mark
-set colorcolumn=100
+set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 " + }}}
 
@@ -92,13 +92,13 @@ Plug 'soywod/iris.vim'                  " Email client
 " After having tested coc-html, coc-emmet, coc-snippets, this is the best option for auto-closing html tags on jsx
 Plug 'alvan/vim-closetag'
 Plug 'ryanoasis/vim-devicons'           " Icons for coc-explorer
-Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh' }
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'bfredl/nvim-miniyank'  " Apple support to  V-Block copy-paste
 Plug 'puremourning/vimspector', {
-  \ 'do': 'python3 install_gadget.py --enable-vscode-cpptools'
-  \ }
+      \ 'do': 'python3 install_gadget.py --enable-vscode-cpptools'
+      \ }
 
+Plug 'szw/vim-maximizer'
 call plug#end()
 
 " + Vim pluggins settings ---------------------------------------------------{{{
@@ -121,8 +121,8 @@ let g:airline_theme='gruvbox'
 
 let g:gruvbox_contrast_dark = 'hard'
 if exists('+termguicolors')
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 " Disable invert selection, you are wellcome eyes!
 let g:gruvbox_invert_selection='0'
@@ -142,14 +142,14 @@ set background=dark
 
 " ++ CoC  config -------------------------------------------------------{{{
 function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 "inoremap <silent><expr> <TAB>
-            "\ pumvisible() ? "\<C-n>" :
-            "\ <SID>check_back_space() ? "\<TAB>" :
-            "\ coc#refresh()
+      "\ pumvisible() ? "\<C-n>" :
+      "\ <SID>check_back_space() ? "\<TAB>" :
+      "\ coc#refresh()
 
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " Add `:Format` command to format current buffer.
@@ -179,10 +179,12 @@ let g:go_auto_sameids = 1
 
 " ++ fzf settings -------------------------------------------------------{{{
 "command! -bang -nargs=? -complete=dir Files
-    "\ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+      "\ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
 
 "command! -bang -nargs=? -complete=dir GFiles
-    "\ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+      "\ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
 
 " TODO mac only
 set rtp+=/usr/local/opt/fzf
@@ -191,7 +193,7 @@ set rtp+=/usr/local/opt/fzf
 " ++ RipGrep settings -------------------------------------------------------{{{
 " Allow RipGrep (FZF) to detect the route, search for git repo and optimize searchs
 if executable('rg')
-    let g:rg_derive_root='true'
+  let g:rg_derive_root='true'
 endif
 let loaded_matchparen = 1
 " ++ }}}
@@ -313,38 +315,38 @@ vnoremap > >gv
 " `< == gvo<esc> (go to the begining of the previous selection) more precise
 " `> == gvo<esc> (go to the end of the previous selection)
 xnoremap <expr> <leader>{ {
-\  'v': "\e`>a}\e`<i{\e",
-\  'V': "\e`>o}\e`<O{\eva{=",
-\  '<c-v>': "A}\egvI{\e",
-\ }[mode()]
+      \  'v': "\e`>a}\e`<i{\e",
+      \  'V': "\e`>o}\e`<O{\eva{=",
+      \  '<c-v>': "A}\egvI{\e",
+      \ }[mode()]
 
 " Idem for []
 xnoremap <expr> <leader>[ {
-\  'v': "\e`>a]\e`<i[\e",
-\  'V': "\e`>a]\e`<i[\e",
-\  '<c-v>': "A]\egvI[\e",
-\ }[mode()]
+      \  'v': "\e`>a]\e`<i[\e",
+      \  'V': "\e`>a]\e`<i[\e",
+      \  '<c-v>': "A]\egvI[\e",
+      \ }[mode()]
 
 " Idem for ""
 xnoremap <expr> <leader>" {
-\  'v': "\e`>a\"\e`<i\"\e",
-\  'V': "\e`>a\"\e`<i\"\e",
-\  '<c-v>': "A\"\egvI\"\e",
-\ }[mode()]
+      \  'v': "\e`>a\"\e`<i\"\e",
+      \  'V': "\e`>a\"\e`<i\"\e",
+      \  '<c-v>': "A\"\egvI\"\e",
+      \ }[mode()]
 
 " Idem for ''
 xnoremap <expr> <leader>' {
-\  'v': "\e`>a\'\e`<i\'\e",
-\  'V': "\e`>a\'\e`<i\'\e",
-\  '<c-v>': "A\'\egvI\'\e",
-\ }[mode()]
+      \  'v': "\e`>a\'\e`<i\'\e",
+      \  'V': "\e`>a\'\e`<i\'\e",
+      \  '<c-v>': "A\'\egvI\'\e",
+      \ }[mode()]
 
 " Idem for ``
 xnoremap <expr> <leader>` {
-\  'v': "\e`>a\`\e`<i\`\e",
-\  'V': "\e`>a\`\e`<i\`\e",
-\  '<c-v>': "A\`\egvI\`\e",
-\ }[mode()]
+      \  'v': "\e`>a\`\e`<i\`\e",
+      \  'V': "\e`>a\`\e`<i\`\e",
+      \  '<c-v>': "A\`\egvI\`\e",
+      \ }[mode()]
 
 " Auto indent all file
 nnoremap <Leader>i gg=G<C-o>
@@ -488,22 +490,31 @@ let g:closetag_filenames = '*.html,*.xhtml,*.js,*.ts,*.jsx,*.tsx'
 command! -nargs=+ Vfb call vimspector#AddFunctionBreakpoint(<f-args>)
 
 let maplocalleader="\<space>"
-let g:vimspector_enable_mappings = 'HUMAN'
-nnoremap <localleader>gl :call vimspector#Launch()<cr>
-nnoremap <localleader>gc :call vimspector#Continue()<cr>
+"let g:vimspector_enable_mappings = 'HUMAN'
+nnoremap <localleader>dg :call vimspector#Launch()<cr>
+nnoremap <localleader>dn :call vimspector#Continue()<cr>
 "nnoremap <localleader>gs :call vimspector#Stop()<cr>
-nnoremap <localleader>gs :call vimspector#Reset()<cr>
-nnoremap <localleader>gR :call vimspector#Restart()<cr>
-nnoremap <localleader>gp :call vimspector#Pause()<cr>
-nnoremap <localleader>gb :call vimspector#ToggleBreakpoint()<cr>
-nnoremap <localleader>gB :call vimspector#ToggleConditionalBreakpoint()<cr>
-nnoremap <localleader>gn :call vimspector#StepOver()<cr>
-nnoremap <localleader>gi :call vimspector#StepInto()<cr>
-nnoremap <localleader>go :call vimspector#StepOut()<cr>
-"nnoremap <localleader>gr :call vimspector#RunToCursor()<cr>
+nnoremap <localleader>dr :call vimspector#Reset()<cr>
+
+nnoremap <localleader>dR :call vimspector#Restart()<cr>
+nnoremap <localleader>dp :call vimspector#Pause()<cr>
+nnoremap <localleader>db :call vimspector#ToggleBreakpoint()<cr>
+"nnoremap <localleader>dB :call vimspector#ToggleConditionalBreakpoint()<cr>
+"nnoremap <localleader>dB <Plug>VimspectorToggleConditionalBreakpoint
+nmap <leader>dB <Plug>VimspectorToggleConditionalBreakpoint
+
+nnoremap <localleader>dj :call vimspector#StepOver()<cr>
+nnoremap <localleader>dl :call vimspector#StepInto()<cr>
+nnoremap <localleader>dk :call vimspector#StepOut()<cr>
+nnoremap <localleader>dh :call vimspector#RunToCursor()<cr>
 " ++ }}}
 
 " + }}}
+
+" Maximizer mappings --------------------------------------------------------{{{
+nnoremap <leader>m :MaximizerToggle!<CR>
+" ++ }}}
+
 " }}}
 
 " Automatic commands --------------------------------------------------------{{{
@@ -513,28 +524,28 @@ autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 
 
 " Tab size for JS and TS files
 augroup TabSize
-    autocmd!
-    autocmd FileType javascript,typescript set tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd!
+  autocmd FileType javascript,typescript set tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 
 " Configure wrap mode only on Markdown files
 augroup Markdown
-    autocmd!
-    autocmd FileType markdown set wrap
+  autocmd!
+  autocmd FileType markdown set wrap
 augroup END
 
 " This is not working properly... should highlight yanked lines
 augroup highlight_yank
-    autocmd!
-    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
+  autocmd!
+  autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
 augroup END
 
 autocmd BufWritePre * :call TrimWhitespace()
 
 fun! TrimWhitespace()
-    let l:save = winsaveview()
-    keeppatterns %s/\s\+$//e
-    call winrestview(l:save)
+  let l:save = winsaveview()
+  keeppatterns %s/\s\+$//e
+  call winrestview(l:save)
 endfun
 
 
@@ -544,8 +555,8 @@ endfun
 "   3. Applying macro to those lines
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 function! ExecuteMacroOverVisualRange()
-    echo "@".getcmdline()
-    execute ":'<,'>normal @".nr2char(getchar())
+  echo "@".getcmdline()
+  execute ":'<,'>normal @".nr2char(getchar())
 endfunction
 
 " }}}
@@ -563,4 +574,23 @@ iabbrev af () => {}<left><CR><Tab>
 
 
 " Experimental stuff
+function! CloseAllBuffersButCurrent()
+  let curr = bufnr("%")
+  let last = bufnr("$")
+
+  if curr > 1    | silent! execute "1,".(curr-1)."bd"     | endif
+  if curr < last | silent! execute (curr+1).",".last."bd" | endif
+endfunction
+
+nmap <Leader><C-w>c CloseAllBuffersButCurrent()<CR>
+
+" This is to be improved to detect character and column under the cursor on a
+" visual selection
+function! Indent(char, column) range
+  let column_1 = a:column - 1
+  let current_pos = getpos(".")
+  execute a:firstline . "," . a:lastline . "normal! 0f". a:char . a:column . "i \ed" . column_1 . "|"."2wdT".a:char."i "
+  call setpos(".", current_pos)
+endfunction
+
 " vim:foldmethod=marker:foldlevel=4
