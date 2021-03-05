@@ -16,7 +16,7 @@ set updatetime=50
 " + }}}
 
 " + Text editor -------------------------------------------------------------{{{
-set tabstop=4 softtabstop=4
+set tabstop=8 softtabstop=4
 set shiftwidth=4
 set expandtab                   " Convert tab character to spaces
 set smartindent                 " Best job to indent for you
@@ -99,7 +99,10 @@ Plug 'puremourning/vimspector', {
       \ }
 
 Plug 'szw/vim-maximizer'
+Plug 'neovim/nvim-lspconfig'  " Only for nvim > 5.0
+Plug 'hugolgst/vimsence'
 call plug#end()
+
 
 " + Vim pluggins settings ---------------------------------------------------{{{
 
@@ -301,13 +304,13 @@ vnoremap K :m '<-2<CR>gv=gv
 vnoremap < <gv
 vnoremap > >gv
 
-" Surround with quotation marks
-"nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
-"nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
-"nnoremap <leader>` viw<esc>a`<esc>bi`<esc>lel
-"vnoremap <leader>" va"<esc>gvo<esc>i"<esc>gvov
-"vnoremap <leader>' va'<esc>gvo<esc>i'<esc>gvov
-"vnoremap <leader>` va`<esc>gvo<esc>i`<esc>gvov
+" Surround with quotation marks and {, [ a single word under the cursor
+nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
+nnoremap <leader>` viw<esc>a`<esc>bi`<esc>lel
+nnoremap <leader>{ viw<esc>a}<esc>bi{<esc>lel
+nnoremap <leader>[ viw<esc>a]<esc>bi[<esc>lel
+nnoremap <leader>( viw<esc>a)<esc>bi(<esc>lel
 
 " Surround with { } visual selections, V-line selections and V-block
 " selections
@@ -325,6 +328,13 @@ xnoremap <expr> <leader>[ {
       \  'v': "\e`>a]\e`<i[\e",
       \  'V': "\e`>a]\e`<i[\e",
       \  '<c-v>': "A]\egvI[\e",
+      \ }[mode()]
+
+" Idem for []
+xnoremap <expr> <leader>( {
+      \  'v': "\e`>a)\e`<i(\e",
+      \  'V': "\e`>a)\e`<i(\e",
+      \  '<c-v>': "A)\egvI(\e",
       \ }[mode()]
 
 " Idem for ""
@@ -363,6 +373,14 @@ onoremap in( :<c-u>normal! f(vi(<cr>
 onoremap il( :<c-u>normal! F)vi(<cr>
 onoremap in{ :<c-u>normal! f{vi{<cr>
 onoremap il{ :<c-u>normal! F}vi{<cr>
+
+
+" Open terminal mappings
+" Horizontal term
+nnoremap <leader>t :sp<CR><C-w>r:term<CR>:set nonumber<CR>:set norelativenumber<CR>
+" Vertical term
+nnoremap <leader>T :vs<CR><C-w>r:term<CR>:set nonumber<CR>:set norelativenumber<CR>
+
 " + }}}
 
 " + Clipboard config --------------------------------------------------------{{{
@@ -488,6 +506,19 @@ let g:closetag_filenames = '*.html,*.xhtml,*.js,*.ts,*.jsx,*.tsx'
 " Vimspector mappings --------------------------------------------------------{{{
 " TODO personalizar
 command! -nargs=+ Vfb call vimspector#AddFunctionBreakpoint(<f-args>)
+" ++ }}}
+
+
+" Vimspector mappings --------------------------------------------------------{{{
+let g:vimsence_client_id = '800067643536834592'
+let g:vimsence_small_text = 'NeoVim'
+let g:vimsence_small_image = 'neovim'
+let g:vimsence_editing_details = 'Olfateanding en: {}'
+let g:vimsence_editing_state = 'Curranding en: {}'
+let g:vimsence_file_explorer_text = 'In NERDTree'
+let g:vimsence_file_explorer_details = 'Looking for files'
+let g:vimsence_custom_icons = {'filetype': 'iconname'}
+" ++ }}}
 
 let maplocalleader="\<space>"
 "let g:vimspector_enable_mappings = 'HUMAN'
@@ -572,6 +603,11 @@ iabbrev af () => {}<left><CR><Tab>
 "map <C-k> <Plug>(Man)
 " }}}
 
+" Deprecated
+"vnoremap <leader>" va"<esc>gvo<esc>i"<esc>gvov
+"vnoremap <leader>' va'<esc>gvo<esc>i'<esc>gvov
+"vnoremap <leader>` va`<esc>gvo<esc>i`<esc>gvov
+"nnoremap <leader>aj
 
 " Experimental stuff
 function! CloseAllBuffersButCurrent()

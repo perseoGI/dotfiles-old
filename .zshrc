@@ -17,7 +17,6 @@ plugins=(
     colored-man-pages
     zsh-autosuggestions
     zsh-syntax-highlighting
- #  zsh-vim-mode
     zsh-z
 )
 
@@ -42,8 +41,12 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-alias pac='sudo pacman -S'
-alias vim=nvim
+if [[ `uname` == "Darwin" ]]; then
+	alias nvim=~/sources/nvim-osx64/bin/nvim
+else
+	alias nvim=~/sources/nvim.appimage
+	alias pac='sudo pacman -S'
+fi
 alias v=nvim
 alias dotfiles='/usr/bin/git --git-dir=${HOME}/.dotfiles/ --work-tree=${HOME}'
 alias alacritty='WINIT_HIDPI_FACTOR=1 alacritty'

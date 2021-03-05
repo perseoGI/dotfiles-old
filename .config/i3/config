@@ -63,8 +63,8 @@ set $rofi_theme "~/.config/i3/clean.rasi"
 
 bindsym $mod+d exec rofi -show drun -theme $rofi_theme -icon-theme candy-icons
 
-#bindsym $mod+d exec rofi -show run -config $rofi_theme
-bindsym $mod+Shift+d exec rofi -show window -config $rofi_theme
+#bindsym $mod+Shift+d exec rofi -show window -theme $rofi_theme -icon-theme candy-icons
+bindsym $mod+Shift+d exec rofi -show find -modi find:~/.local/share/rofi/finder.sh #-theme $rofi_theme -icon-theme candy-icons
 
 #bindsym $mod+d exec rofi i -i -modi run,ssh -dmenu -mesg 'Howdy'`"
 
