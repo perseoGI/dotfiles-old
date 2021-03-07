@@ -126,6 +126,8 @@ if has('nvim-0.5')
 
     " LSP config
     Plug 'neovim/nvim-lspconfig'
+    " Improves LSP completion
+    Plug 'nvim-lua/completion-nvim'
 
     " Get better at vim from the best streamer ever
     Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
@@ -460,45 +462,59 @@ nnoremap <leader>u :UndotreeShow<CR>
 " ++ }}}
 
 " ++ Find mappings ----------------------------------------------------------{{{
-" Replaced by Telescope
-"
-" Find current word in the project using rg
-" nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
-" Find a word on project using rg
-" nnoremap <Leader>ps :Rg<CR>
-"
+
 " Find and refactor current word in the project
 nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
 " Open vim help for current word
 nnoremap <leader>vhw :h <C-R>=expand("<cword>")<CR><CR>
+
+if has('nvim-0.5') && isdirectory($HOME.'/.vim/plugged/telescope.nvim')
+    " Telescope mappings --------------------------------------------------------{{{
+    nnoremap <leader>ps <cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>
+    nnoremap <leader>pw <cmd>lua require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>
+    nnoremap <leader>pg <cmd>lua require('telescope.builtin').live_grep()<cr>
+    nnoremap <leader>vh <cmd>lua require('telescope.builtin').help_tags()<cr>
+    " ++ }}}
+else
+    " Find current word in the project using rg
+    nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
+    " Find a word on project using rg
+    nnoremap <Leader>ps :Rg<CR>
+endif
 " ++ }}}}
 
 " ++ File explorer mappings -------------------------------------------------{{{
-" Replaced by telescope
-" GFiles only works with git repo and will only display added files on .git
-" nnoremap <C-p> :GFiles<CR>
 
-" Replaced by telescope
-" Files is the best alternative for GFiles when there is no git initialized
-"nnoremap <Leader>pf :Files<CR>
+if has('nvim-0.5') && isdirectory($HOME.'/.vim/plugged/telescope.nvim')
+    " Telescope mappings --------------------------------------------------------{{{
+    nnoremap <C-p> <cmd>lua require('telescope.builtin').git_files()<CR>
+    nnoremap <leader>pf <cmd>lua require('telescope.builtin').find_files()<cr>
+    nnoremap <leader>pb <cmd>lua require('telescope.builtin').buffers()<cr>
+    " ++ }}}
+else
+    " GFiles only works with git repo and will only display added files on .git
+     nnoremap <C-p> :GFiles<CR>
+     " Files is the best alternative for GFiles when there is no git initialized
+     nnoremap <Leader>pf :Files<CR>
+endif
 
-" Open classical Ex-plorer on the left
 " if &runtimepath =~ 'coc-explorer' " this does not work because vimrc loads
 " before coc pluggin
 if isdirectory($HOME."/.config/coc/extensions/node_modules/coc-explorer")
     nnoremap <leader>pv :CocCommand explorer --quit-on-open<CR>
 else
-    echo 'no coc-explorer'
-    nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+    " Open classical Ex-plorer on the left
+    "nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+    nnoremap <leader>pv Sex!<CR>
 endif
-
-" <leader>n  to open nnn explorer => great sustitute of Ex
 
 " ++ }}}
 
+
+
 " ++ Coc mappings: GoTo code navigation --------------------------------------{{{
 nmap <leader>gd <Plug>(coc-definition)
-nmap <leader>gy <Plug>(coc-type-definition)
+nmap <leader>gt <Plug>(coc-type-definition)
 nmap <leader>gi <Plug>(coc-implementation)
 nmap <leader>gr <Plug>(coc-references)
 nmap <leader>rr <Plug>(coc-rename)
@@ -519,6 +535,53 @@ imap <C-l> <Plug>(coc-snippets-expand)
 noremap <leader>gth :CocCommand clangd.switchSourceHeader<cr>
 
 " ++ }}}
+
+set completeopt=menuone,noinsert,noselect
+" Avoid showing message extra message when using completion
+set shortmess+=c
+let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
+
+" FIXME completion with <c-n>
+"inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+
+lua << EOF
+
+local nvim_lsp = require('lspconfig')
+
+--[ Mapping configuration applied only when LSP is available
+
+local custom_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  require'completion'.on_attach(client)
+
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+  buf_set_keymap('n', '<leader>gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', '<leader>gt', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<leader>gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<leader>gr', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<leader>rr', '<Cmd>lua vim.lsp.buf.rename()<CR>', opts)
+
+  buf_set_keymap('n', '<leader>[', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', '<leader>]', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+end
+
+
+require'lspconfig'.tsserver.setup{ on_attach=custom_attach }
+
+require'lspconfig'.clangd.setup {
+on_attach = on_attach,
+root_dir = function() return vim.loop.cwd() end
+}
+
+--[ require'lspconfig'.pyls.setup{ on_attach=custom_attach }
+--[ require'lspconfig'.rust_analyzer.setup{ on_attach=custom_attach }
+EOF
+
 
 " ++ FuGITive mappings ------------------------------------------------------{{{
 nmap <leader>gh :diffget //3<CR>
@@ -583,23 +646,12 @@ nnoremap <localleader>dk :call vimspector#StepOut()<cr>
 nnoremap <localleader>dh :call vimspector#RunToCursor()<cr>
 " ++ }}}
 
-" + }}}
-
 " Maximizer mappings --------------------------------------------------------{{{
 nnoremap <leader>m :MaximizerToggle!<CR>
 " ++ }}}
 
-" Telescope mappings --------------------------------------------------------{{{
+" + }}}
 
-nnoremap <C-p> <cmd>lua require('telescope.builtin').git_files()<CR>
-nnoremap <leader>pf <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <leader>ps <cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>
-nnoremap <leader>pw <cmd>lua require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>
-
-nnoremap <leader>pg <cmd>lua require('telescope.builtin').live_grep()<cr>
-nnoremap <leader>pb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>vh <cmd>lua require('telescope.builtin').help_tags()<cr>
-" ++ }}}
 
 " }}}
 

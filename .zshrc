@@ -44,7 +44,8 @@ export NVM_DIR="$HOME/.nvm"
 if [[ `uname` == "Darwin" ]]; then
 	alias nvim=~/sources/nvim-osx64/bin/nvim
 else
-	alias nvim=~/sources/nvim.appimage
+  # Using neovim-nightly-bin package
+	#alias nvim=~/sources/nvim.appimage
 	alias pac='sudo pacman -S'
 fi
 alias v=nvim
