@@ -54,53 +54,98 @@ highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 " VIM Pluggins {{{
 call plug#begin('~/.vim/plugged')
-Plug 'gruvbox-community/gruvbox'        " Colorscheme
-Plug 'sainnhe/gruvbox-material'
-"Plug 'vim-utils/vim-man'                " Man pages
-Plug 'tpope/vim-fugitive'               " Git blames, logs...
 
-" To avoid file not found errors on C/C++, compile_commands.json must be
-" created on the path. Use $ bear make ... to generate automatically
-Plug 'neoclide/coc.nvim', {'branch': 'release'}     " Completer
+" Theme
+"" Colorscheme
+Plug 'gruvbox-community/gruvbox'
+Plug 'sainnhe/gruvbox-material'
+
+"" Vim Airline: botton bar
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+
+" Highlighters
 " To enable configure coc-settings.json with
 "       clangd.semanticHighlighting": true
 Plug 'jackguo380/vim-lsp-cxx-highlight' " Syntax highlighter for C/C++ to be used with Coc [semanticHighlighting]
-
-Plug 'tweekmonster/gofmt.vim'
-Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
+
+Plug 'mbbill/undotree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
-Plug 'zhou13/vim-easyescape'
-"Plug 'prabirshrestha/async.vim'
-"Plug 'prabirshrestha/vim-lsp'
-"Plug 'prabirshrestha/asyncomplete.vim'
-"Plug 'prabirshrestha/asyncomplete-lsp.vim'
-"Plug 'prabirshrestha/asyncomplete-file.vim'
+Plug 'zhou13/vim-easyescape'            " Essential to exit to normal mode with jk or kj
 Plug 'preservim/nerdcommenter'          " Comments
 Plug 'kshenoy/vim-signature'            " Show marks
 Plug 'vuciv/vim-bujo'                   " Minimalist TODO list management
-" Vim Airline: botton bar
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-"Plug 'justinmk/vim-sneak'               " Vim search word given two letters  TODO pensar si cambiarlo a f
+
+
 Plug 'jiangmiao/auto-pairs'             " Auto open close pairs, best plug of Augost-2020
-Plug 'soywod/iris.vim'                  " Email client
-"Plug 'mcchrish/nnn.vim'
-"Plug 'floobits/floobits-neovim'         " Colaborate Vim ~= VSCode Live Share pluggin or Atom Teletype
 " After having tested coc-html, coc-emmet, coc-snippets, this is the best option for auto-closing html tags on jsx
 Plug 'alvan/vim-closetag'
-Plug 'ryanoasis/vim-devicons'           " Icons for coc-explorer
-Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-Plug 'bfredl/nvim-miniyank'  " Apple support to  V-Block copy-paste
-Plug 'puremourning/vimspector', {
-      \ 'do': 'python3 install_gadget.py --enable-vscode-cpptools'
-      \ }
+Plug 'szw/vim-maximizer'                " Cool maximizer/minimizer pluggin
 
-Plug 'szw/vim-maximizer'
-Plug 'neovim/nvim-lspconfig'  " Only for nvim > 5.0
-Plug 'hugolgst/vimsence'
+if executable('git')
+    Plug 'tpope/vim-fugitive'               " Git blames, logs...
+endif
+
+if has('python3')
+    Plug 'puremourning/vimspector', {
+                \ 'do': 'python3 install_gadget.py --enable-vscode-cpptools'
+                \ }
+endif
+
+if has('node')
+    " TODO: add CocConfig to dotfiles
+    " Coc meta plugin needs nodejs
+    " To avoid file not found errors on C/C++, compile_commands.json must be
+    " created on the path. Use $ bear make ... to generate automatically
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'ryanoasis/vim-devicons'           " Icons for coc-explorer
+endif
+
+
+" Apple support to  V-Block copy-paste
+if has('mac') || has('maxunix')
+      Plug 'bfredl/nvim-miniyank'
+endif
+
+" Discord vimscene
+if has('mac') && executable('/Applications/Discord.app/Contents/MacOS/Discord') ||
+            \ has('unix') && (executable('discord') || executable('discord-canary'))
+    Plug 'hugolgst/vimsence'
+endif
+
+
+if has('nvim-0.5')
+    " Telescope (>=neovim 5.0)
+    Plug 'nvim-lua/popup.nvim'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-telescope/telescope.nvim'
+    Plug 'nvim-telescope/telescope-fzy-native.nvim'
+
+    " LSP config
+    Plug 'neovim/nvim-lspconfig'
+
+    " Get better at vim from the best streamer ever
+    Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
+endif
+
+
+" Not using stuff
+"
+" Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+" Plug 'floobits/floobits-neovim'         " Colaborate Vim ~= VSCode Live Share pluggin or Atom Teletype
+" Plug 'mcchrish/nnn.vim'
+" Plug 'soywod/iris.vim'                  " Email client
+" Plug 'justinmk/vim-sneak'               " Vim search word given two letters  TODO pensar si cambiarlo a f
+" Plug 'prabirshrestha/async.vim'
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'prabirshrestha/asyncomplete.vim'
+" Plug 'prabirshrestha/asyncomplete-lsp.vim'
+" Plug 'prabirshrestha/asyncomplete-file.vim'
+" Plug 'vim-utils/vim-man'                " Man pages
+
 call plug#end()
 
 
@@ -163,34 +208,15 @@ command! -nargs=0 Format :call CocAction('format')
 let g:vim_be_good_floating = 0
 " ++ }}}
 
-" ++ vim go (polyglot) setting ----------------------------------------------{{{
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_types = 1
-let g:go_highlight_function_parameters = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_generate_tags = 1
-let g:go_highlight_format_strings = 1
-let g:go_highlight_variable_declarations = 1
-let g:go_auto_sameids = 1
-" ++ }}}
 
 " ++ fzf settings -------------------------------------------------------{{{
-"command! -bang -nargs=? -complete=dir Files
-      "\ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
-
-"command! -bang -nargs=? -complete=dir GFiles
-      "\ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
-
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
 
 " TODO mac only
-set rtp+=/usr/local/opt/fzf
+
+if has('mac')
+    set rtp+=/usr/local/opt/fzf
+endif
 " ++ }}}
 
 " ++ RipGrep settings -------------------------------------------------------{{{
@@ -202,11 +228,15 @@ let loaded_matchparen = 1
 " ++ }}}
 
 " ++ Browser tree configuration ---------------------------------------------{{{
-let loaded_netrwPlugin = 1  " Disable netrw on open
-let g:netrw_browse_split = 2
-let g:vrfr_rg = 'true'
-let g:netrw_banner = 0  " Disable help info on browser tree
-let g:netrw_winsize = 25
+
+if isdirectory($HOME."/.config/coc/extensions/node_modules/coc-explorer")
+    let loaded_netrwPlugin = 1  " Disable netrw on open
+else
+    let g:netrw_browse_split = 2
+    let g:vrfr_rg = 'true'
+    let g:netrw_banner = 0  " Disable help info on browser tree
+    let g:netrw_winsize = 25
+endif
 "" ++ }}}
 
 " ++ vim-easyescape ---------------------------------------------------------{{{
@@ -430,10 +460,13 @@ nnoremap <leader>u :UndotreeShow<CR>
 " ++ }}}
 
 " ++ Find mappings ----------------------------------------------------------{{{
+" Replaced by Telescope
+"
 " Find current word in the project using rg
-nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
+" nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
 " Find a word on project using rg
-nnoremap <Leader>ps :Rg<CR>
+" nnoremap <Leader>ps :Rg<CR>
+"
 " Find and refactor current word in the project
 nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
 " Open vim help for current word
@@ -441,13 +474,23 @@ nnoremap <leader>vhw :h <C-R>=expand("<cword>")<CR><CR>
 " ++ }}}}
 
 " ++ File explorer mappings -------------------------------------------------{{{
+" Replaced by telescope
 " GFiles only works with git repo and will only display added files on .git
-nnoremap <C-p> :GFiles<CR>
+" nnoremap <C-p> :GFiles<CR>
+
+" Replaced by telescope
 " Files is the best alternative for GFiles when there is no git initialized
-nnoremap <Leader>pf :Files<CR>
+"nnoremap <Leader>pf :Files<CR>
+
 " Open classical Ex-plorer on the left
-nnoremap <leader>pv :CocCommand explorer --quit-on-open<CR>
-"nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+" if &runtimepath =~ 'coc-explorer' " this does not work because vimrc loads
+" before coc pluggin
+if isdirectory($HOME."/.config/coc/extensions/node_modules/coc-explorer")
+    nnoremap <leader>pv :CocCommand explorer --quit-on-open<CR>
+else
+    echo 'no coc-explorer'
+    nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
+endif
 
 " <leader>n  to open nnn explorer => great sustitute of Ex
 
@@ -546,6 +589,18 @@ nnoremap <localleader>dh :call vimspector#RunToCursor()<cr>
 nnoremap <leader>m :MaximizerToggle!<CR>
 " ++ }}}
 
+" Telescope mappings --------------------------------------------------------{{{
+
+nnoremap <C-p> <cmd>lua require('telescope.builtin').git_files()<CR>
+nnoremap <leader>pf <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>ps <cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>
+nnoremap <leader>pw <cmd>lua require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }<CR>
+
+nnoremap <leader>pg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>pb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>vh <cmd>lua require('telescope.builtin').help_tags()<cr>
+" ++ }}}
+
 " }}}
 
 " Automatic commands --------------------------------------------------------{{{
@@ -566,6 +621,7 @@ augroup Markdown
 augroup END
 
 " This is not working properly... should highlight yanked lines
+" TODO add if to check if coc-yank is already installed
 augroup highlight_yank
   autocmd!
   autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
@@ -596,6 +652,7 @@ endfunction
 iabbrev clog console.log(
 iabbrev @@ perseo.gi98@gmail.com
 iabbrev af () => {}<left><CR><Tab>
+iabbrev intmain int main (int argc, char *arcv[], char *envp[]){
 " }}}
 
 " Deprecated stuff ----------------------------------------------------------{{{
@@ -603,11 +660,6 @@ iabbrev af () => {}<left><CR><Tab>
 "map <C-k> <Plug>(Man)
 " }}}
 
-" Deprecated
-"vnoremap <leader>" va"<esc>gvo<esc>i"<esc>gvov
-"vnoremap <leader>' va'<esc>gvo<esc>i'<esc>gvov
-"vnoremap <leader>` va`<esc>gvo<esc>i`<esc>gvov
-"nnoremap <leader>aj
 
 " Experimental stuff
 function! CloseAllBuffersButCurrent()
