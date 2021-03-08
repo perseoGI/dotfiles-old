@@ -43,6 +43,7 @@ set noshowmode                  " Dont show Vim mode status => replaced by vim-a
 " Give more space for displaying messages.
 set cmdheight=2
 " Don't pass messages to |ins-completion-menu|.
+" Avoid showing message extra message when using completion
 set shortmess+=c
 " Column mark
 set colorcolumn=80
@@ -213,6 +214,16 @@ let g:vim_be_good_floating = 0
 
 " ++ fzf settings -------------------------------------------------------{{{
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
+
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep(
+  \   'git grep --line-number -- '.shellescape(<q-args>), 0,
+  \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
+
+command! -bang -nargs=* Grep
+  \ call fzf#vim#grep(
+  \   'grep -n --line-buffered -r '.shellescape(<q-args>).' .', 0,
+  \   fzf#vim#with_preview(), <bang>0)
 
 " TODO mac only
 
@@ -530,6 +541,11 @@ inoremap <silent><expr> <C-space> coc#refresh()
 
 " Use <C-l> for trigger snippet expand.
 imap <C-l> <Plug>(coc-snippets-expand)
+vmap <C-j> <Plug>(coc-snippets-select)
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+" Use <leader>x for convert visual selected code to snippet
+xmap <leader>x  <Plug>(coc-convert-snippet)
 
 " Go to header (C/C++)
 noremap <leader>gth :CocCommand clangd.switchSourceHeader<cr>
@@ -537,8 +553,6 @@ noremap <leader>gth :CocCommand clangd.switchSourceHeader<cr>
 " ++ }}}
 
 set completeopt=menuone,noinsert,noselect
-" Avoid showing message extra message when using completion
-set shortmess+=c
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 
 " FIXME completion with <c-n>
@@ -573,14 +587,28 @@ end
 
 require'lspconfig'.tsserver.setup{ on_attach=custom_attach }
 
+--[ This is the perfect sustitute to coc-clangd
 require'lspconfig'.clangd.setup {
-on_attach = on_attach,
+on_attach = custom_attach,
 root_dir = function() return vim.loop.cwd() end
 }
 
+require'lspconfig'.pyright.setup{ on_attach=custom_attach }
 --[ require'lspconfig'.pyls.setup{ on_attach=custom_attach }
+
 --[ require'lspconfig'.rust_analyzer.setup{ on_attach=custom_attach }
+
+
+--[[  https://www.reddit.com/r/neovim/comments/l00zzb/improve_style_of_builtin_lsp_diagnostic_messages/gjt2hek?utm_source=share&utm_medium=web2x&context=3
+  [ Remove signs from left bar and change color for the line number
+  ]]
+vim.fn.sign_define("LspDiagnosticsSignError", {text = "", numhl = "LspDiagnosticsDefaultError"})
+vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", numhl = "LspDiagnosticsDefaultWarning"})
+vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", numhl = "LspDiagnosticsDefaultInformation"})
+vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", numhl = "LspDiagnosticsDefaultHint"})
+
 EOF
+let g:python3_host_prog = '/usr/bin/python'
 
 
 " ++ FuGITive mappings ------------------------------------------------------{{{
@@ -660,6 +688,9 @@ nnoremap <leader>m :MaximizerToggle!<CR>
 " Remember last position in buffer
 autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
+" Nvim built in Lsp allow autocommand pop up diagnostic message
+autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+
 " Tab size for JS and TS files
 augroup TabSize
   autocmd!
@@ -697,6 +728,7 @@ function! ExecuteMacroOverVisualRange()
   echo "@".getcmdline()
   execute ":'<,'>normal @".nr2char(getchar())
 endfunction
+
 
 " }}}
 
