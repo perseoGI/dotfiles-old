@@ -75,7 +75,6 @@ Plug 'sheerun/vim-polyglot'
 Plug 'mbbill/undotree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'zhou13/vim-easyescape'            " Essential to exit to normal mode with jk or kj
 Plug 'preservim/nerdcommenter'          " Comments
 Plug 'kshenoy/vim-signature'            " Show marks
 Plug 'vuciv/vim-bujo'                   " Minimalist TODO list management
@@ -94,6 +93,7 @@ if has('python3')
     Plug 'puremourning/vimspector', {
                 \ 'do': 'python3 install_gadget.py --enable-vscode-cpptools'
                 \ }
+    Plug 'zhou13/vim-easyescape'            " Essential to exit to normal mode with jk or kj
 endif
 
 if has('node')
@@ -212,18 +212,26 @@ let g:vim_be_good_floating = 0
 " ++ }}}
 
 
-" ++ fzf settings -------------------------------------------------------{{{
-let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
+" ++ fzf settings '-------------------------------------------------------{{{
 
-command! -bang -nargs=* GGrep
-  \ call fzf#vim#grep(
-  \   'git grep --line-number -- '.shellescape(<q-args>), 0,
-  \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
+" Vim 8.2 or neovim support floating windows
+if v:version > 802 || has('nvim')
+    let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
+else
+    " Greps for systems without Rg or Ag installed
+    let g:fzf_layout = { 'down': '40%' }
+    command! -bang -nargs=* GitGrep
+                \ call fzf#vim#grep(
+                \   'git grep --line-number -- '.shellescape(<q-args>), 0,
+                \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
 
-command! -bang -nargs=* Grep
-  \ call fzf#vim#grep(
-  \   'grep -n --line-buffered -r '.shellescape(<q-args>).' .', 0,
-  \   fzf#vim#with_preview(), <bang>0)
+    " No git
+    command! -bang -nargs=* OldGrep
+                \ call fzf#vim#grep(
+                \   'grep -n --line-buffered -r --exclude-dir={node_modules,.svn,.git} --exclude=\*.{a,o} '.shellescape(<q-args>). ' .', 0,
+                \   fzf#vim#with_preview(), <bang>0)
+endif
+
 
 " TODO mac only
 
@@ -419,10 +427,19 @@ onoremap il{ :<c-u>normal! F}vi{<cr>
 
 
 " Open terminal mappings
-" Horizontal term
-nnoremap <leader>t :sp<CR><C-w>r:term<CR>:set nonumber<CR>:set norelativenumber<CR>
-" Vertical term
-nnoremap <leader>T :vs<CR><C-w>r:term<CR>:set nonumber<CR>:set norelativenumber<CR>
+if has ('nvim')
+    " Horizontal term
+    nnoremap <leader>t :sp<CR><C-w>r:term<CR>:set nonumber<CR>:set norelativenumber<CR>
+    " Vertical term
+    nnoremap <leader>T :vs<CR><C-w>r:term<CR>:set nonumber<CR>:set norelativenumber<CR>
+else
+    " Vim does not open term with line numbers
+    " Horizontal term
+    nnoremap <leader>t :term<CR><C-w>r
+    " Vertical term
+    nnoremap <leader>T :vert term<CR><C-w>r
+endif
+
 
 " + }}}
 
@@ -446,16 +463,6 @@ vnoremap <leader>P "+P
 " This allows to use unnamedplus clipboard in combination of ^V block pasting
 "map p <Plug>(miniyank-autoput)
 "map P <Plug>(miniyank-autoPut)
-" + }}}
-
-
-" + Bro mappings ------------------------------------------------------------{{{
-" ... Keep away from dangerous arrows !
-"noremap <left> :echo "Use H bro :("<cr><left>
-"noremap <right> :echo "Use L bro :("<cr><right>
-"noremap <up> :echo "Use K bro :("<cr><up>
-"noremap <down> :echo "Use J bro :("<cr><down>
-"noremap <esc> :echo "Don't even think of ESC. Use jk or kj :)"<cr><esc>
 " + }}}
 
 " + Vim Pluggings mappings --------------------------------------------------{{{
@@ -486,11 +493,26 @@ if has('nvim-0.5') && isdirectory($HOME.'/.vim/plugged/telescope.nvim')
     nnoremap <leader>pg <cmd>lua require('telescope.builtin').live_grep()<cr>
     nnoremap <leader>vh <cmd>lua require('telescope.builtin').help_tags()<cr>
     " ++ }}}
-else
+elseif executable('rg')
     " Find current word in the project using rg
     nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
     " Find a word on project using rg
     nnoremap <Leader>ps :Rg<CR>
+else
+    " Check if git is accesible
+    silent! !git rev-parse --is-inside-work-tree
+    if v:shell_error == 0
+        " Find current word in the project using git grep command
+        nnoremap <leader>pw :GitGrep <C-R>=expand("<cword>")<CR><CR>
+        " Find a word on project using git grep command
+        nnoremap <Leader>ps :GitGrep<CR>
+    else
+        " Find current word in the project using classical grep
+        nnoremap <leader>pw :OldGrep <C-R>=expand("<cword>")<CR><CR>
+        " Find a word on project using classical grep
+        nnoremap <Leader>ps :OldGrep<CR>
+    endif
+
 endif
 " ++ }}}}
 
@@ -516,7 +538,7 @@ if isdirectory($HOME."/.config/coc/extensions/node_modules/coc-explorer")
 else
     " Open classical Ex-plorer on the left
     "nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
-    nnoremap <leader>pv Sex!<CR>
+    nnoremap <leader>pv :Sex!<CR>
 endif
 
 " ++ }}}
@@ -558,6 +580,7 @@ let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 " FIXME completion with <c-n>
 "inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 
+if has('nvim-0.5')
 lua << EOF
 
 local nvim_lsp = require('lspconfig')
@@ -608,6 +631,7 @@ vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", numhl = "LspDiag
 vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", numhl = "LspDiagnosticsDefaultHint"})
 
 EOF
+endif
 let g:python3_host_prog = '/usr/bin/python'
 
 
@@ -688,8 +712,10 @@ nnoremap <leader>m :MaximizerToggle!<CR>
 " Remember last position in buffer
 autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
+if has('nvim-0.5')
 " Nvim built in Lsp allow autocommand pop up diagnostic message
 autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+endif
 
 " Tab size for JS and TS files
 augroup TabSize
