@@ -84,6 +84,8 @@ Plug 'jiangmiao/auto-pairs'             " Auto open close pairs, best plug of Au
 " After having tested coc-html, coc-emmet, coc-snippets, this is the best option for auto-closing html tags on jsx
 Plug 'alvan/vim-closetag'
 Plug 'szw/vim-maximizer'                " Cool maximizer/minimizer pluggin
+" Go-To-Finder / Go-To-Terminal (current buffer)
+Plug 'justinmk/vim-gtfo'
 
 if executable('git')
     Plug 'tpope/vim-fugitive'               " Git blames, logs...
@@ -228,7 +230,7 @@ else
     " No git
     command! -bang -nargs=* OldGrep
                 \ call fzf#vim#grep(
-                \   'grep -n --line-buffered -r --exclude-dir={node_modules,.svn,.git} --exclude=\*.{a,o} '.shellescape(<q-args>). ' .', 0,
+                \   'grep -n --line-buffered -r --exclude-dir={node_modules,.svn,.git} --exclude=\*.{a,o,so} '.shellescape(<q-args>). ' .', 0,
                 \   fzf#vim#with_preview(), <bang>0)
 endif
 
@@ -253,7 +255,7 @@ let loaded_matchparen = 1
 if isdirectory($HOME."/.config/coc/extensions/node_modules/coc-explorer")
     let loaded_netrwPlugin = 1  " Disable netrw on open
 else
-    let g:netrw_browse_split = 2
+    let g:netrw_browse_split = 4
     let g:vrfr_rg = 'true'
     let g:netrw_banner = 0  " Disable help info on browser tree
     let g:netrw_winsize = 25
@@ -351,6 +353,14 @@ inoremap <C-c> <esc>
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
+" From justinmk
+" un-join (split) the current line at the cursor position
+nnoremap gj i<c-j><esc>k$
+" select last inserted text
+nnoremap gV `[v`]
+" repeat last command for each line of a visual selection
+xnoremap . :normal .<CR>
+
 " Visual selection after shifting
 vnoremap < <gv
 vnoremap > >gv
@@ -440,6 +450,40 @@ else
     nnoremap <leader>T :vert term<CR><C-w>r
 endif
 
+" Quick fix list ------------------------------------------------------------{{{
+
+" TIP: <c-q> inside fzf search and it will load all results on quickfix list
+
+if exists(':cbefore')
+    nnoremap <c-j> <cmd>call QFList(1)<CR>
+    nnoremap <c-k> <cmd>call QFList(0)<CR>
+
+    function! QFList(forwards)
+        try
+            if a:forwards
+                execute ':cafter'
+            else
+                execute ':cbefore'
+            endif
+        catch
+            try
+                if a:forwards
+                    execute ':cnext'
+                else
+                    execute ':cprev'
+                endif
+            catch
+                echo 'No more items'
+            endtry
+        endtry
+    endfunction
+else
+    " Vim <= 8.1 compatibility
+    nnoremap <c-j> :cnext<CR>
+    nnoremap <c-k> :cprev<CR>
+endif
+
+" + }}}
 
 " + }}}
 
@@ -460,9 +504,12 @@ nnoremap <leader>P "+P
 vnoremap <leader>p "+p
 vnoremap <leader>P "+P
 
+" Only needed on macOS
 " This allows to use unnamedplus clipboard in combination of ^V block pasting
-"map p <Plug>(miniyank-autoput)
-"map P <Plug>(miniyank-autoPut)
+if has('mac') || has('maxunix')
+    map p <Plug>(miniyank-autoput)
+    map P <Plug>(miniyank-autoPut)
+endif
 " + }}}
 
 " + Vim Pluggings mappings --------------------------------------------------{{{
@@ -790,5 +837,6 @@ function! Indent(char, column) range
   execute a:firstline . "," . a:lastline . "normal! 0f". a:char . a:column . "i \ed" . column_1 . "|"."2wdT".a:char."i "
   call setpos(".", current_pos)
 endfunction
+
 
 " vim:foldmethod=marker:foldlevel=4
