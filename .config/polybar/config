@@ -87,7 +87,7 @@ font-4 = Font Awesome 5 Free Solid:style=Solid;+2
 
 ; Moved everything to the center because I use an ultrawide (5120 x 1440)
 modules-left = xwindow
-modules-center = i3 time date xkeyboard memory cpu gpu-usage eth temperature fs-root fs-hdd headset-battery-level headset-mic-status powermenu
+modules-center = i3 time date xkeyboard memory cpu gpu-usage eth temperature fs-root fs-hdd headset-battery-level headset-mic-status sct powermenu
 modules-right =  pulseaudio apple-music apple-music-prev apple-music-play-pause apple-music-next
 
 tray-position = right
@@ -281,6 +281,12 @@ hook-1 = echo "%{F#f00}  "
 initial = 1
 format-underline = ${colors.gradient-11}
 
+[module/sct]
+type = custom/ipc
+hook-0 = echo ""
+hook-1 = echo ""
+initial = 2
+click-left = if [ `xsct | cut -d'~' -f2-` -eq 4500 ]; then xsct 0;  polybar-msg hook sct 1 1>/dev/null 2>&1; else xsct 4500; polybar-msg hook sct 2 1>/dev/null 2>&1; fi
 
 [module/powermenu]
 type = custom/menu
