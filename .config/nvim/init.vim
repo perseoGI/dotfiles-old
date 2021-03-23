@@ -87,6 +87,8 @@ Plug 'szw/vim-maximizer'                " Cool maximizer/minimizer pluggin
 " Go-To-Finder / Go-To-Terminal (current buffer)
 Plug 'justinmk/vim-gtfo'
 
+Plug 'jdhao/better-escape.vim'          " Essential to exit to normal mode with jk or kj
+
 if executable('git')
     Plug 'tpope/vim-fugitive'               " Git blames, logs...
 endif
@@ -95,7 +97,7 @@ if has('python3')
     Plug 'puremourning/vimspector', {
                 \ 'do': 'python3 install_gadget.py --enable-vscode-cpptools'
                 \ }
-    Plug 'zhou13/vim-easyescape'            " Essential to exit to normal mode with jk or kj
+    "Plug 'zhou13/vim-easyescape'            " Essential to exit to normal mode with jk or kj
 endif
 
 if has('node')
@@ -116,7 +118,7 @@ endif
 " Discord vimscene
 if has('mac') && executable('/Applications/Discord.app/Contents/MacOS/Discord') ||
             \ has('unix') && (executable('discord') || executable('discord-canary'))
-    Plug 'hugolgst/vimsence'
+    "Plug 'hugolgst/vimsence'
 endif
 
 
@@ -262,10 +264,10 @@ else
 endif
 "" ++ }}}
 
-" ++ vim-easyescape ---------------------------------------------------------{{{
+" ++ better-scape -----------------------------------------------------------{{{
 " Escape to normal mode pressing 'jk' or 'kj' at the same time
-let g:easyescape_chars = { "j": 1, "k": 1 }
-let g:easyescape_timeout = 100
+let g:better_escape_interval = 100
+let g:better_escape_shortcut = ['jk', 'kj', 'JK', 'KJ']
 "++ }}}
 
 " ++ ToDo bujo settings -----------------------------------------------------{{{
@@ -663,6 +665,9 @@ on_attach = custom_attach,
 root_dir = function() return vim.loop.cwd() end
 }
 
+-- Ada built in Lsp
+require'lspconfig'.als.setup{ on_attach=custom_attach, cmd = {"/home/perseo/sources/linux/ada_language_server" } }
+
 require'lspconfig'.pyright.setup{ on_attach=custom_attach }
 --[ require'lspconfig'.pyls.setup{ on_attach=custom_attach }
 
@@ -672,6 +677,7 @@ require'lspconfig'.pyright.setup{ on_attach=custom_attach }
 --[[  https://www.reddit.com/r/neovim/comments/l00zzb/improve_style_of_builtin_lsp_diagnostic_messages/gjt2hek?utm_source=share&utm_medium=web2x&context=3
   [ Remove signs from left bar and change color for the line number
   ]]
+
 vim.fn.sign_define("LspDiagnosticsSignError", {text = "", numhl = "LspDiagnosticsDefaultError"})
 vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", numhl = "LspDiagnosticsDefaultWarning"})
 vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", numhl = "LspDiagnosticsDefaultInformation"})
