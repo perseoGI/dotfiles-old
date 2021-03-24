@@ -619,7 +619,13 @@ imap <C-j> <Plug>(coc-snippets-expand-jump)
 xmap <leader>x  <Plug>(coc-convert-snippet)
 
 " Go to header (C/C++)
-noremap <leader>gth :CocCommand clangd.switchSourceHeader<cr>
+if isdirectory($HOME."/.config/coc/extensions/node_modules/coc-clangd")
+    " Use coc-clangd built in function
+    noremap <leader>gth :CocCommand clangd.switchSourceHeader<cr>
+else
+    " Use custom function
+    noremap <leader>gth :call SwitchSourceHeader()<cr>
+endif
 
 " ++ }}}
 
@@ -842,6 +848,37 @@ function! Indent(char, column) range
   let current_pos = getpos(".")
   execute a:firstline . "," . a:lastline . "normal! 0f". a:char . a:column . "i \ed" . column_1 . "|"."2wdT".a:char."i "
   call setpos(".", current_pos)
+endfunction
+
+" Custom function to between header and source files of C/C++ (similar to
+" coc-clangd.switchSourceHeader)
+function! SwitchSourceHeader()
+    let l:curr = expand('%:r')
+    let l:extension = expand('%:e')
+
+    let l:sources = ['c', 'C', 'cpp', 'cc']
+    let l:headers = ['h', 'hpp']
+
+    if l:extension =~ join(l:sources, '\|')
+        for ext in l:headers
+            let l:option = l:curr . '.' . ext
+            if filereadable(l:option)
+                execute "e ".fnameescape(l:option)
+                return
+            endif
+        endfor
+        echo 'No header file exist'
+    elseif l:extension =~ join(l:headers, '\|')
+        for ext in l:sources
+            let l:option = l:curr . '.' . ext
+            if filereadable(l:option)
+                execute "e ".fnameescape(l:option)
+                return
+            endif
+        endfor
+        echo 'No source file exist'
+    endif
+
 endfunction
 
 
