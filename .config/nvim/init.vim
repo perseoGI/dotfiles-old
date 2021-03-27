@@ -706,59 +706,63 @@ let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
 " FIXME completion with <c-n>
 "inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 
+
 if has('nvim-0.5')
+    " Enable Lua syntax highlight on vim file
+    let g:vimsyn_embed= 'l'
+
     lua << EOF
 
-    local nvim_lsp = require('lspconfig')
+        local nvim_lsp = require('lspconfig')
 
-    --[ Mapping configuration applied only when LSP is available
+        --[ Mapping configuration applied only when LSP is available
 
-    local custom_attach = function(client, bufnr)
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+        local custom_attach = function(client, bufnr)
+            local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+            local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-    require'completion'.on_attach(client)
+            require'completion'.on_attach(client)
 
-    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+            buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-    -- Mappings.
-    local opts = { noremap=true, silent=true }
-    buf_set_keymap('n', '<leader>gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    buf_set_keymap('n', '<leader>gt', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-    buf_set_keymap('n', '<leader>gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('n', '<leader>gr', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', '<leader>rr', '<Cmd>lua vim.lsp.buf.rename()<CR>', opts)
+            -- Mappings.
+            local opts = { noremap=true, silent=true }
+            buf_set_keymap('n', '<leader>gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+            buf_set_keymap('n', '<leader>gt', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+            buf_set_keymap('n', '<leader>gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+            buf_set_keymap('n', '<leader>gr', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
+            buf_set_keymap('n', '<leader>rr', '<Cmd>lua vim.lsp.buf.rename()<CR>', opts)
 
-    buf_set_keymap('n', '<leader>[', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-    buf_set_keymap('n', '<leader>]', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-end
-
-
-require'lspconfig'.tsserver.setup{ on_attach=custom_attach }
-
---[ This is the perfect sustitute to coc-clangd
-require'lspconfig'.clangd.setup {
-on_attach = custom_attach,
-root_dir = function() return vim.loop.cwd() end
-}
-
--- Ada built in Lsp
-require'lspconfig'.als.setup{ on_attach=custom_attach, cmd = {"/home/perseo/sources/linux/ada_language_server" } }
-
-require'lspconfig'.pyright.setup{ on_attach=custom_attach }
---[ require'lspconfig'.pyls.setup{ on_attach=custom_attach }
-
---[ require'lspconfig'.rust_analyzer.setup{ on_attach=custom_attach }
+            buf_set_keymap('n', '<leader>[', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+            buf_set_keymap('n', '<leader>]', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+        end
 
 
---[[  https://www.reddit.com/r/neovim/comments/l00zzb/improve_style_of_builtin_lsp_diagnostic_messages/gjt2hek?utm_source=share&utm_medium=web2x&context=3
-[ Remove signs from left bar and change color for the line number
-]]
+        require'lspconfig'.tsserver.setup{ on_attach=custom_attach }
 
-vim.fn.sign_define("LspDiagnosticsSignError", {text = "", numhl = "LspDiagnosticsDefaultError"})
-vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", numhl = "LspDiagnosticsDefaultWarning"})
-vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", numhl = "LspDiagnosticsDefaultInformation"})
-vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", numhl = "LspDiagnosticsDefaultHint"})
+        --[ This is the perfect sustitute to coc-clangd
+        require'lspconfig'.clangd.setup {
+        on_attach = custom_attach,
+        root_dir = function() return vim.loop.cwd() end
+        }
+
+        -- Ada built in Lsp
+        require'lspconfig'.als.setup{ on_attach=custom_attach, cmd = {"/home/perseo/sources/linux/ada_language_server" } }
+
+        require'lspconfig'.pyright.setup{ on_attach=custom_attach }
+        --[ require'lspconfig'.pyls.setup{ on_attach=custom_attach }
+
+        --[ require'lspconfig'.rust_analyzer.setup{ on_attach=custom_attach }
+
+
+        --[[  https://www.reddit.com/r/neovim/comments/l00zzb/improve_style_of_builtin_lsp_diagnostic_messages/gjt2hek?utm_source=share&utm_medium=web2x&context=3
+        [ Remove signs from left bar and change color for the line number
+        ]]
+
+        vim.fn.sign_define("LspDiagnosticsSignError", {text = "", numhl = "LspDiagnosticsDefaultError"})
+        vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "", numhl = "LspDiagnosticsDefaultWarning"})
+        vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "", numhl = "LspDiagnosticsDefaultInformation"})
+        vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", numhl = "LspDiagnosticsDefaultHint"})
 
 EOF
 endif
