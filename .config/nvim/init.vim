@@ -114,8 +114,9 @@ if has('mac') || has('maxunix')
 endif
 
 " Discord vimscene
-if has('mac') && executable('/Applications/Discord.app/Contents/MacOS/Discord') ||
-            \ has('unix') && (executable('discord') || executable('discord-canary'))
+if has('unix') && (executable('discord') || executable('discord-canary'))
+    " This Plugin slow the start up time on MacOS by 3 s moreless...
+    " \ || hhas('mac') && executable('/Applications/Discord.app/Contents/MacOS/Discord')
     Plug 'hugolgst/vimsence'
 endif
 
@@ -679,7 +680,7 @@ vim.fn.sign_define("LspDiagnosticsSignHint", {text = "", numhl = "LspDiagnostics
 
 EOF
 endif
-let g:python3_host_prog = '/usr/bin/python'
+"let g:python3_host_prog = '/usr/bin/python'
 
 
 " ++ FuGITive mappings ------------------------------------------------------{{{

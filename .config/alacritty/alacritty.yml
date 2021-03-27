@@ -32,25 +32,84 @@ colors:
 
 font:
   normal:
-    family: SauceCodePro Nerd Font Mono
+    #family: SauceCodePro Nerd Font Mono
     #family: JetBrains Mono
     #family: DejaVu Sans Mono
     #family: UbuntuMono Nerd Font Mono
+    family: MesloLGS NF
     style: Regular
 
   bold:
-    family: Source Code Pro
-    style: Bold
+    family: MesloLGS NF
+    #family: JetBrains Mono
+    #family: Source Code Pro
+    style: Soft Bold
 
   italic:
-    family: Source Code Pro
+    #family: Source Code Pro
+    #family: JetBrains Mono
+    family: MesloLGS NF
     style: Italic
 
   bold_italic:
-    family: Source Code Pro
+    #family: Source Code Pro
+    #family: JetBrains Mono
+    family: MesloLGS NF
     style: Italic
-  size: 10
+  #size: 10
+  size: 14
 
   offset:
       x: 0
       y: 0
+
+key_bindings:
+  - { key: Slash,                        action: ReceiveChar           }
+  - { key: Slash,  mods: Shift,          action: ReceiveChar         }
+
+bell:
+  animation: EaseOutExpo
+  duration: 0
+# Bell
+#
+# The bell is rung every time the BEL control character is received.
+#bell:
+  # Visual Bell Animation
+  #
+  # Animation effect for flashing the screen when the visual bell is rung.
+  #
+  # Values for `animation`:
+  #   - Ease
+  #   - EaseOut
+  #   - EaseOutSine
+  #   - EaseOutQuad
+  #   - EaseOutCubic
+  #   - EaseOutQuart
+  #   - EaseOutQuint
+  #   - EaseOutExpo
+  #   - EaseOutCirc
+  #   - Linear
+  #animation: EaseOutExpo
+
+  # Duration of the visual bell flash in milliseconds. A `duration` of `0` will
+  # disable the visual bell animation.
+  #duration: 0
+
+  # Visual bell animation color.
+  #color: '#ffffff'
+
+  # Bell Command
+  #
+  # This program is executed whenever the bell is rung.
+  #
+  # When set to `command: None`, no command will be executed.
+  #
+  # Example:
+  #   command:
+  #     program: notify-send
+  #     args: ["Hello, World!"]
+  #
+  #command: None
+  #command:
+  #program: notify-send
+  #args: ["Hello, World!"]
