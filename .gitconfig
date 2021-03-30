@@ -6,3 +6,5 @@
 [alias]
 	s = status -sb
 	l = log --graph --decorate --oneline
+[pull]
+	rebase = true
