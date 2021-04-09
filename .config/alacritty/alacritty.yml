@@ -66,6 +66,7 @@ font:
 key_bindings:
   - { key: Slash,                        action: ReceiveChar           }
   - { key: Slash,  mods: Shift,          action: ReceiveChar         }
+  - { key: Slash, mods: Control,            action: ReceiveChar         }
 
 bell:
   animation: EaseOutExpo

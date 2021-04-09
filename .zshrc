@@ -45,6 +45,7 @@ if [[ `uname` == "Darwin" ]]; then
 	alias nvim=~/sources/nvim-osx64/bin/nvim
   alias python=python3.9
   alias pip=pip3
+  PATH="/Users/perseo/Library/Python/3.9/bin:$PATH"
 else
   # Using neovim-nightly-bin package
 	#alias nvim=~/sources/nvim.appimage
