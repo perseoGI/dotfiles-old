@@ -97,6 +97,7 @@ if has('python3')
     Plug 'puremourning/vimspector', {
                 \ 'do': 'python3 install_gadget.py --enable-vscode-cpptools'
                 \ }
+    Plug 'codota/tabnine-vim'           " Im testing it :3
 endif
 
 if has('node')
@@ -115,10 +116,9 @@ if has('mac') || has('maxunix')
 endif
 
 " Discord vimscene
-if has('unix') && (executable('discord') || executable('discord-canary'))
-    " This Plugin slow the start up time on MacOS by 3 s moreless...
-    " \ || hhas('mac') && executable('/Applications/Discord.app/Contents/MacOS/Discord')
-    " Plug 'hugolgst/vimsence'
+if has('mac') && executable('/Applications/Discord.app/Contents/MacOS/Discord') ||
+            \ has('unix') && (executable('discord') || executable('discord-canary'))
+    Plug 'andweeb/presence.nvim'    " Much faster than hugolgst/vimsence.vim
 endif
 
 
@@ -136,6 +136,9 @@ if has('nvim-0.5')
 
     " Get better at vim from the best streamer ever
     Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
+
+    " NEW
+    Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 endif
 
 if ! has('node')  && ! has('nvim-0.5')
@@ -281,7 +284,7 @@ let g:bujo#window_width = 70
 
 
 " Iris settings -------------------------------------------------------------{{{
-let g:iris_name = "Perseo"
+"let g:iris_name = "Perseo"
 "let g:iris_mail = "perseo.gi98@gmail.com"
 "let g:iris_imap_host  = "imap.gmail.com"
 "let g:iris_imap_port  = 993
@@ -383,6 +386,17 @@ endif
 " + }}}
 
 " + }}}
+
+" presence.vim (Discord) configuration ---------------------------------------{{{
+let g:presence_auto_update       = 1
+let g:presence_editing_text      = "Olfateanding %s"
+let g:presence_workspace_text    = "Curranding on %s"
+let g:presence_neovim_image_text = "If you do emacs...sorry"
+let g:presence_main_image        = "neovim"
+let g:presence_client_id         = "793271441293967371"
+let g:presence_debounce_timeout  = 15
+" ++ }}}
+
 " }}}
 
 " Mappings ------------------------------------------------------------------{{{
@@ -402,8 +416,8 @@ nnoremap <leader>l :wincmd l<CR>
 
 " Move among buffers with CTRL (enable g:airline#extensions#tabline#enabled to
 " see open buffers)
-map <C-L> :bnext<CR>
-map <C-H> :bprev<CR>
+nnoremap <C-L> :bnext<CR>
+nnoremap <C-H> :bprev<CR>
 " Close buffer
 nnoremap <C-w>c :bd<CR>
 
@@ -438,6 +452,10 @@ xnoremap . :normal .<CR>
 " Visual selection after shifting
 vnoremap < <gv
 vnoremap > >gv
+
+" Paste from 0 registre easily
+noremap ,p "0p
+
 
 " Surround with quotation marks and {, [ a single word under the cursor
 nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
@@ -802,16 +820,6 @@ command! -nargs=+ Vfb call vimspector#AddFunctionBreakpoint(<f-args>)
 " ++ }}}
 
 
-" Vimspector mappings --------------------------------------------------------{{{
-let g:vimsence_client_id = '800067643536834592'
-let g:vimsence_small_text = 'NeoVim'
-let g:vimsence_small_image = 'neovim'
-let g:vimsence_editing_details = 'Olfateanding en: {}'
-let g:vimsence_editing_state = 'Curranding en: {}'
-let g:vimsence_file_explorer_text = 'In NERDTree'
-let g:vimsence_file_explorer_details = 'Looking for files'
-let g:vimsence_custom_icons = {'filetype': 'iconname'}
-" ++ }}}
 
 let maplocalleader="\<space>"
 "let g:vimspector_enable_mappings = 'HUMAN'
@@ -956,6 +964,5 @@ function! SwitchSourceHeader()
     endif
 
 endfunction
-
 
 " vim:foldmethod=marker:foldlevel=4
