@@ -88,6 +88,7 @@ Plug 'szw/vim-maximizer'                " Cool maximizer/minimizer pluggin
 Plug 'justinmk/vim-gtfo'
 
 Plug 'jdhao/better-escape.vim'          " Essential to exit to normal mode with jk or kj
+Plug 'honza/vim-snippets'
 
 if executable('git')
     Plug 'tpope/vim-fugitive'               " Git blames, logs...
@@ -97,7 +98,7 @@ if has('python3')
     Plug 'puremourning/vimspector', {
                 \ 'do': 'python3 install_gadget.py --enable-vscode-cpptools'
                 \ }
-    Plug 'codota/tabnine-vim'           " Im testing it :3
+    " Plug 'codota/tabnine-vim'           " Im testing it :3
 endif
 
 if has('node')
@@ -138,7 +139,7 @@ if has('nvim-0.5')
     Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
 
     " NEW
-    Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+    " Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 endif
 
 if ! has('node')  && ! has('nvim-0.5')
@@ -964,5 +965,13 @@ function! SwitchSourceHeader()
     endif
 
 endfunction
+
+" TODO organice this
+command! -range JsonFormat <line1>,<line2>call JsonFormatFunction()
+" Use python power to format json
+function! JsonFormatFunction() range
+    execute a:firstline . "," . a:lastline . "! python -m json.tool"
+endfunction
+
 
 " vim:foldmethod=marker:foldlevel=4
