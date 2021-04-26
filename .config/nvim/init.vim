@@ -108,6 +108,7 @@ if has('node')
     " created on the path. Use $ bear make ... to generate automatically
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'ryanoasis/vim-devicons'           " Icons for coc-explorer
+    Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 endif
 
 
@@ -148,6 +149,7 @@ if ! has('node')  && ! has('nvim-0.5')
     Plug 'prabirshrestha/asyncomplete.vim'
     Plug 'prabirshrestha/asyncomplete-lsp.vim'
     Plug 'prabirshrestha/asyncomplete-file.vim'
+    Plug 'machakann/vim-highlightedyank'
 endif
 
 " Not using stuff
@@ -398,6 +400,11 @@ let g:presence_client_id         = "793271441293967371"
 let g:presence_debounce_timeout  = 15
 " ++ }}}
 
+" + markdown-preview.nvim config --------------------------------------------------------{{{
+function! g:Open_browser(url)
+    silent exec "!brave " . a:url . " &"
+endfunction
+let g:mkdp_browserfunc = 'g:Open_browser'
 " }}}
 
 " Mappings ------------------------------------------------------------------{{{
@@ -603,6 +610,8 @@ if has('mac') || has('maxunix')
     map p <Plug>(miniyank-autoput)
     map P <Plug>(miniyank-autoPut)
 endif
+" + }}}
+
 " + }}}
 
 " + Vim Pluggings mappings --------------------------------------------------{{{
@@ -966,12 +975,20 @@ function! SwitchSourceHeader()
 
 endfunction
 
-" TODO organice this
+" TODO organize this
 command! -range JsonFormat <line1>,<line2>call JsonFormatFunction()
 " Use python power to format json
 function! JsonFormatFunction() range
     execute a:firstline . "," . a:lastline . "! python -m json.tool"
 endfunction
 
+command! -range SplitToLines <line1>,<line2>call SplitToLinesFunction()
+function SplitToLinesFunction() range
+  for lnum in range(a:lastline, a:firstline, -1)
+    let words = split(getline(lnum))
+    execute lnum . "delete"
+    call append(lnum-1, words)
+  endfor
+endfunction
 
 " vim:foldmethod=marker:foldlevel=4
