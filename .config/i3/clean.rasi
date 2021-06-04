@@ -54,7 +54,7 @@ configuration {
 /*}*/
 
 #window {
-    width: 10%;
+    width: 15%;
     height: 30%;
     background-color: @background;
     padding:          0;

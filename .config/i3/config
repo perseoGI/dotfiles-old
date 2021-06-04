@@ -14,6 +14,9 @@ for_window [class=".*"] border pixel 3
 smart_gaps on
 smart_borders on
 
+# Little script for ultrawide monitor (centers an resices to 1/3) one window
+bindsym $mod+g floating enable; resize set 50ppt 90ppt; move position center
+
 # Set inner and outer gaps
 #gaps inner 24
 #gaps outer 10
@@ -61,10 +64,16 @@ bindsym $mod+Shift+q kill
 # candy-icons need to be installed: https://github.com/EliverLara/candy-icons.git
 set $rofi_theme "~/.config/i3/clean.rasi"
 
-bindsym $mod+d exec rofi -show drun -theme $rofi_theme -icon-theme candy-icons
+bindsym $mod+space exec rofi -show drun -theme $rofi_theme -icon-theme candy-icons
 
 #bindsym $mod+Shift+d exec rofi -show window -theme $rofi_theme -icon-theme candy-icons
-bindsym $mod+Shift+d exec rofi -show find -modi find:~/.local/share/rofi/finder.sh #-theme $rofi_theme -icon-theme candy-icons
+#bindsym $mod+Shift+space exec rofi -show find -modi find:~/.local/share/rofi/finder.sh #-theme $rofi_theme -icon-theme candy-icons
+bindsym Mod4+space exec exo-open "$(locate home media | rofi -theme $rofi_theme -icon-theme candy-icos -threads 0 -dmenu -i -p "locate")"
+
+bindsym $mod+Shift+space exec rofi -theme $rofi_theme -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
+
+# Rofi calculator: https://github.com/svenstaro/rofi-calc
+bindsym Mod4+Shift+space exec --no-startup-id rofi -show calc -modi calc -no-show-match -no-sort -theme $rofi_theme > /dev/null
 
 #bindsym $mod+d exec rofi i -i -modi run,ssh -dmenu -mesg 'Howdy'`"
 
@@ -113,10 +122,10 @@ bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+d floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym $mod+d focus mode_toggle
 
 # focus the parent container
 #bindsym $mod+a focus parent
@@ -276,20 +285,22 @@ for_window [class="^floating$"] [floating] resize set 1800 1000, move position c
 
 
 # Daemons
-# Startup polybar daemon
+## Startup polybar daemon
 exec_always --no-startup-id pkill polybar; polybar -r main
 
 # Startup picom compositor daemon
 exec_always --no-startup-id pkill picom; picom --no-use-damage
 #exec_always --no-startup-id pkill picom; picom --config=/dev/null --backend=xrender --experimental-backends
 
-# Set keybaord layout
-# Configure keyboard layout with english international without unconfortable dead keys
+## Set keybaord layout
+### Configure keyboard layout with english international without unconfortable dead keys
 exec_always --no-startup-id /home/perseo/scripts/keyboard-layout/set-keyboard-layout us
 
-# Start up hyperx headset server (remove unlink when fixed socket)
+## Start up hyperx headset server (remove unlink when fixed socket)
 exec_always --no-startup-id pkill hyperx-service; unlink /tmp/hyperx-service; /home/perseo/scripts/hyperx-cloud-flight/hyperx-service
 
+## Greenclip daemon
+exec_always --no-startup-id greenclip daemon
 
 # Deprectaed or copied
 

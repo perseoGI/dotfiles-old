@@ -1,0 +1,82 @@
+    {
+        "border": "normal",
+        "floating": "auto_off",
+        "layout": "stacked",
+        "percent": 0.282352941176471,
+        "type": "con",
+        "nodes": [
+            {
+                "border": "pixel",
+                "current_border_width": 3,
+                "floating": "auto_off",
+                "geometry": {
+                    "height": 1234,
+                    "width": 1430,
+                    "x": 2,
+                    "y": 204
+                },
+                "name": "Telegram (6034)",
+                "percent": 1,
+                "swallows": [
+                    {
+                        "class": "^TelegramDesktop$",
+                        "instance": "^telegram\\-desktop$",
+                        "title": "^Telegram\\ \\(6034\\)$"
+                    }
+                ],
+                "type": "con"
+            }
+        ]
+    },
+    {
+        "border": "normal",
+        "floating": "auto_off",
+        "layout": "splith",
+        "percent": 0.717647058823529,
+        "type": "con",
+        "nodes": [
+            {
+                "border": "pixel",
+                "current_border_width": 3,
+                "floating": "auto_off",
+                "geometry": {
+                    "height": 504,
+                    "width": 734,
+                    "x": 0,
+                    "y": 0
+                },
+                "name": "i3-save-tree --workspace 1 > ~/.config/i3/workspaces/standard.json",
+                "percent": 0.5,
+                "swallows": [
+                    {
+                        "class": "^Terminator$",
+                        "instance": "^terminator$",
+                        "title": "^i3\\-save\\-tree\\ \\-\\-workspace\\ 1\\ \\>\\ \\~\\/\\.config\\/i3\\/workspaces\\/standard\\.json$"
+                    }
+                ],
+                "type": "con"
+            },
+            {
+                "border": "pixel",
+                "current_border_width": 3,
+                "floating": "auto_off",
+                "geometry": {
+                    "height": 1376,
+                    "width": 1534,
+                    "x": 3585,
+                    "y": 63
+                },
+                "name": "i3: Layout saving in i3 - Brave",
+                "percent": 0.5,
+                "swallows": [
+                    {
+                        "class": "^Brave\\-browser$",
+                        "instance": "^brave\\-browser$",
+                        "title": "^i3\\:\\ Layout\\ saving\\ in\\ i3\\ \\-\\ Brave$",
+                        "window_role": "^browser$"
+                    }
+                ],
+                "type": "con"
+            }
+        ]
+    }
