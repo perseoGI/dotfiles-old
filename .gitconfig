@@ -1,10 +1,1 @@
-[user]
-	name = Perseo
-	email = perseo.gi98@gmail.com
-[core]
-	editor = /home/perseo/sources/nvim.appimage
-[alias]
-	s = status -sb
-	l = log --graph --decorate --oneline
-[pull]
-	rebase = true
+/home/perseo/.config/dotpyle/dotfiles/git/default/.gitconfig

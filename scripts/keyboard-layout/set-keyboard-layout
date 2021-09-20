@@ -10,5 +10,7 @@ if [ "$1" == "us" ]; then
 
 elif [ "$1" == "dvorak" ]; then
     echo "Changed to dvorak_intl"
-    setxkbmap -verbose dvorak_intl  1>/dev/null 2>&1
+    #setxkbmap -verbose dvorak_intl  1>/dev/null 2>&1
+    setxkbmap -verbose real-prog-dvorak-intl -option lv3:ralt_switch 1>/dev/null 2>&1
+    #setxkbmap -layout us -variant dvp -option lv3:ralt_switch
 fi

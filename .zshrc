@@ -18,6 +18,8 @@ plugins=(
     zsh-autosuggestions
     zsh-syntax-highlighting
     zsh-z
+    docker
+    docker-compose
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -31,8 +33,9 @@ bindkey "^N" down-line-or-search
 export VISUAL="nvim"
 export EDITOR="nvim"
 export READER="okular"
+export TERMINAL="alacritty"
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-export MANPAGER='nvim +Man!'
+#export MANPAGER='nvim +Man!'
 
 # Compilation flags
 export ARCHFLAGS="-arch x86_64"
@@ -56,6 +59,15 @@ alias v=nvim
 alias dotfiles='/usr/bin/git --git-dir=${HOME}/.dotfiles/ --work-tree=${HOME}'
 alias alacritty='WINIT_HIDPI_FACTOR=1 alacritty'
 
+# Verbosity
+alias \
+	cp="cp -iv" \
+	mv="mv -iv" \
+	rm="rm -vI" \
+	bc="bc -ql" \
+	mkd="mkdir -pv" \
+	ffmpeg="ffmpeg -hide_banner"
+
 # Use exa, ls made in Rust, with color highlighting
 alias l='exa -lagh'
 alias ll='exa -lh'
@@ -66,7 +78,7 @@ alias ll='exa -lh'
 #PATH=$PATH:/home/perseo/scripts:/usr/local/arm/gcc-arm-none-eabi-4_9-2015q3/bin
 #
 ## Add pip installed packages
-#PATH="${PATH}:$(python3 -c 'import site; print(site.USER_BASE)')/bin"
+PATH="${PATH}:$(python3 -c 'import site; print(site.USER_BASE)')/bin"
 #
 #PATH="/home/perseo/perl5/bin${PATH:+:${PATH}}"; export PATH;
 #PERL5LIB="/home/perseo/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
