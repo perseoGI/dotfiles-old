@@ -11,7 +11,7 @@ font pango:monospace 8
 for_window [class=".*"] border pixel 3
 
 # Enable gaps only when there is at least two containers open
-smart_gaps on
+#smart_gaps on
 smart_borders on
 
 # Little script for ultrawide monitor (centers an resices to 1/3) one window
@@ -289,7 +289,8 @@ for_window [title="BpyTOP"] floating enable resize set 1350 850, move position 1
 
 # Daemons
 ## Startup polybar daemon
-exec_always --no-startup-id pkill polybar; polybar -r main
+#exec_always --no-startup-id pkill polybar; polybar -r main
+exec_always --no-startup-id pkill polybar; $HOME/scripts/launch-i3.sh
 
 # Startup picom compositor daemon
 exec_always --no-startup-id pkill picom; picom --no-use-damage
