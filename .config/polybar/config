@@ -97,7 +97,7 @@ enable-ipc = true
 inherit = bar/main
 width = 100%
 offset-x = 0%
-modules-left = xwindow i3 time date xkeyboard memory cpu gpu-usage eth temperature fs-root fs-hdd headset-battery-level headset-mic-status sct powermenu pulseaudio apple-music apple-music-prev apple-music-play-pause apple-music-next
+modules-left = desk i3 time date xkeyboard memory cpu gpu-usage eth temperature fs-root fs-hdd headset-battery-level headset-mic-status sct powermenu pulseaudio apple-music apple-music-prev apple-music-play-pause apple-music-next
 
 [bar/5120x1440]
 inherit = bar/main
@@ -111,8 +111,20 @@ modules-right =  pulseaudio apple-music apple-music-prev apple-music-play-pause 
 
 [module/xwindow]
 type = internal/xwindow
-label = %title:0:30:...%
+; label = %title:0:30:...%
+label = %title%
+label-empty = "                              "
 label-maxlen = 30
+label-minlen = 30
+
+[module/desk]
+type = custom/script
+tail = true
+format = <label>
+label-maxlen = 30
+label-minlen = 30
+exec = ~/scripts/custom-xwindow-name.sh
+
 
 [module/i3]
 type = internal/i3
